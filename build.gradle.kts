@@ -6,17 +6,15 @@
 plugins {
     // Gemeinsame Java-Konventionen
     id("buildlogic.java-conventions")
-    // Plugin für die Umwandlung von AsciiDoc (.adoc) in HTML/PDF
-    id("org.asciidoctor.jvm.convert") version "4.0.5"
 }
 
 dependencies {
     // Abhängigkeit zum Basis-Modul
     api("org.quurz.foomp:base:0.1.0-SNAPSHOT")
-    
+
     api(libs.org.apache.commons.commons.lang3)
     api(libs.org.checkerframework.checker.qual)
-    
+
     testImplementation(libs.org.slf4j.slf4j.api)
     testImplementation(libs.ch.qos.logback.logback.classic)
 }
@@ -28,14 +26,29 @@ java {
 }
 
 /*
- * Konfiguration des Asciidoctor-Tasks.
- * Legt fest, wo die Quelldateien liegen und wohin das Ergebnis geschrieben wird.
+ * Task zum Installieren der npm-Abhängigkeiten in docs-site.
  */
-tasks.named<org.asciidoctor.gradle.jvm.AsciidoctorTask>("asciidoctor") {
-    // Quellverzeichnis für .adoc Dateien
-    setSourceDir(file("src/site/adoc"))
-    // Zielverzeichnis für generiertes HTML
-    setOutputDir(layout.buildDirectory.dir("docs/asciidoc").get().asFile)
+val npmInstallDocs = tasks.register<Exec>("npmInstallDocs") {
+    group = "documentation"
+    description = "Installiert npm-Abhängigkeiten für die Astro-Seite."
+    workingDir = file("docs-site")
+    commandLine("npm", "install")
+    inputs.file("docs-site/package.json")
+    outputs.dir("docs-site/node_modules")
+}
+
+/*
+ * Task zum Bauen der Astro-Seite.
+ */
+val buildAstroDocs = tasks.register<Exec>("buildAstroDocs") {
+    group = "documentation"
+    description = "Baut die Astro Starlight Dokumentation."
+    dependsOn(npmInstallDocs, "assembleDocsForStarlight")
+    workingDir = file("docs-site")
+    commandLine("npm", "run", "build")
+    inputs.dir("docs-site/src")
+    inputs.dir("docs-site/public")
+    outputs.dir("docs-site/dist")
 }
 
 // Hilfsvariable für den Zielordner der Projekthomepage (Site)
@@ -47,11 +60,11 @@ val moduleSiteDir = layout.buildDirectory.dir("site")
  */
 tasks.register<Copy>("moduleSite") {
     group = "documentation"
-    description = "Erzeugt die Modul-Site (Asciidoc, JavaDoc, Coverage)."
+    description = "Erzeugt die Modul-Site (Astro, JavaDoc, Coverage)."
 
     // Dieser Task startet automatisch alle benötigten Generierungsschritte
     dependsOn(
-        "asciidoctor",
+        buildAstroDocs,
         "javadoc",
         "test",
         "jacocoTestReport"
@@ -59,14 +72,9 @@ tasks.register<Copy>("moduleSite") {
 
     into(moduleSiteDir)
 
-    // Kopieren der generierten Asciidoc-HTML-Dateien
-    from(layout.buildDirectory.dir("docs/asciidoc")) {
-        into("docs")
-    }
-    // Kopieren der JavaDoc-Dokumentation
-    from(layout.buildDirectory.dir("docs/javadoc")) {
-        into("javadoc")
-    }
+    // Kopieren der generierten Astro-Seite
+    from(file("docs-site/dist"))
+
     // Kopieren des JaCoCo-Abdeckungsberichts
     from(layout.buildDirectory.dir("reports/jacoco/test/html")) {
         into("jacoco")
