@@ -1,0 +1,46 @@
+= Localization (AutomataMessages)
+
+The class `org.quurz.foomp.automata.localisation.AutomataMessages` provides localized
+error messages and hints for the Automata module. Texts are loaded from the
+resource bundle `AutomataMessages.properties` (default language: `Locale.getDefault()`).
+
+== Available messages
+
+- `unknownStartState(Object startState)`
+  * Message: `UNKNOWN_START_STATE = Unknown start state (startState: '%s')`
+  * Purpose: Initial state is unknown/invalid.
+
+- `emptyStateSet()`
+  * Message: `EMPTY_STATE_SET = The set of states must not be empty`
+  * Purpose: State set is empty.
+
+- `emptyInputAlphabet()`
+  * Message: `EMPTY_INPUT_ALPHABET = The input alphabet must not be empty`
+  * Purpose: Input alphabet is empty.
+
+- `emptyOutputAlphabet()`
+  * Message: `EMPTY_OUTPUT_ALPHABET = The output alphabet must not be empty`
+  * Purpose: Output alphabet is empty.
+
+- `endStatesNotATrueSubsetOfStates()`
+  * Message: `END_STATES_TRUE_NO_SUBSET_OF_STATES = The set of end-states must be a true subset of the set of states`
+  * Purpose: End states are not a true subset of the states.
+
+- `unknownInputToken(Object inputToken)`
+  * Message: `UNKNOWN_INPUT_TOKEN = Unknown input token (input: '%s')`
+  * Purpose: Input symbol is unknown.
+
+- `unknownState(Object state)`
+  * Message: `UNKNOWN_STATE = Unknown state (state: %s)`
+  * Purpose: State is unknown.
+
+- `unknownOutputToken(Object outputToken)`
+  * Message: `UNKNOWN_OUTPUT_TOKEN = Unknown output token (output: %s)`
+  * Purpose: Output symbol is unknown.
+
+== Notes
+
+- For additional languages, provide extra `AutomataMessages_xx.properties` files.
+- The error texts are used within `FiniteStateMachine` for validation and runtime errors.
+- See implementation details in the class
+  `org.quurz.foomp.automata.localisation.AutomataMessages`.

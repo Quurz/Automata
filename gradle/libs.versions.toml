@@ -1,0 +1,34 @@
+# Dies ist der Version Catalog von Gradle.
+# Er dient dazu, Versionen und Abhängigkeiten zentral an einem Ort zu verwalten,
+# statt sie in jeder build.gradle.kts-Datei einzeln zu pflegen.
+
+[versions]
+# Hier werden die Versionsnummern als Variablen definiert.
+ch-qos-logback-logback-classic = "1.5.20"
+com-google-jimfs-jimfs = "1.3.1"
+net-bytebuddy-byte-buddy = "1.17.8"
+org-apache-commons-commons-lang3 = "3.19.0"
+org-assertj-assertj-core = "3.27.6"
+org-checkerframework-checker-qual = "3.48.1"
+org-checkerframework-checker = "3.48.1"
+org-junit-jupiter-junit-jupiter-engine = "6.0.0"
+org-mockito-mockito-core = "5.20.0"
+org-mockito-mockito-junit-jupiter = "5.20.0"
+org-slf4j-slf4j-api = "2.0.17"
+tools-jackson-core-jackson-databind = "3.0.0"
+
+[libraries]
+# Hier werden die eigentlichen Bibliotheken (Artifacts) definiert.
+# Sie können in build.gradle.kts dann via 'libs.name.des.eintrags' genutzt werden.
+ch-qos-logback-logback-classic = { module = "ch.qos.logback:logback-classic", version.ref = "ch-qos-logback-logback-classic" }
+com-google-jimfs-jimfs = { module = "com.google.jimfs:jimfs", version.ref = "com-google-jimfs-jimfs" }
+net-bytebuddy-byte-buddy = { module = "net.bytebuddy:byte-buddy", version.ref = "net-bytebuddy-byte-buddy" }
+org-apache-commons-commons-lang3 = { module = "org.apache.commons:commons-lang3", version.ref = "org-apache-commons-commons-lang3" }
+org-assertj-assertj-core = { module = "org.assertj:assertj-core", version.ref = "org-assertj-assertj-core" }
+org-checkerframework-checker-qual = { module = "org.checkerframework:checker-qual", version.ref = "org-checkerframework-checker-qual" }
+org-checkerframework-checker = { module = "org.checkerframework:checker", version.ref = "org-checkerframework-checker" }
+org-junit-jupiter-junit-jupiter-engine = { module = "org.junit.jupiter:junit-jupiter-engine", version.ref = "org-junit-jupiter-junit-jupiter-engine" }
+org-mockito-mockito-core = { module = "org.mockito:mockito-core", version.ref = "org-mockito-mockito-core" }
+org-mockito-mockito-junit-jupiter = { module = "org.mockito:mockito-junit-jupiter", version.ref = "org-mockito-mockito-junit-jupiter" }
+org-slf4j-slf4j-api = { module = "org.slf4j:slf4j-api", version.ref = "org-slf4j-slf4j-api" }
+tools-jackson-core-jackson-databind = { module = "tools.jackson.core:jackson-databind", version.ref = "tools-jackson-core-jackson-databind" }

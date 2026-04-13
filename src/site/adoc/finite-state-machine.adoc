@@ -1,0 +1,81 @@
+= FiniteStateMachine (Implementation)
+
+`FiniteStateMachine<S, IA, OA>` is a thread-safe implementation of the
+xref:state-machine.adoc[StateMachine] interface. It supports Moore and Mealy semantics
+and encapsulates state transitions and output functions.
+
+Key points from the JavaDoc:
+
+- Thread-safe by using a `ReentrantLock` for all state transitions.
+- Constructed via factory methods instead of a constructor:
+  * `mooreMachine(...)`: outputs depend only on the state (`Fun<S, OA>`).
+  * `mealyMachine(...)`: outputs depend on state and input (`Fun2<S, IA, OA>`).
+- Validations with expressive error messages (localized via `AutomataMessages`).
+- Supports end states for termination/acceptance detection.
+
+== API overview
+
+[source,java]
+----
+public final class FiniteStateMachine<S, IA, OA> implements StateMachine<S, IA, OA> {
+
+    // Moore: output = f(state)
+    public static <S, IA, OA> FiniteStateMachine<S, IA, OA> mooreMachine(
+        Set<S> states,
+        Set<IA> inputAlphabet,
+        Set<OA> outputAlphabet,
+        Fun2<S, IA, S> transitionFunction,
+        Fun<S, OA> outputFunction,
+        Set<S> endStates,
+        S initialState
+    );
+
+    // Mealy: output = f(state, input)
+    public static <S, IA, OA> FiniteStateMachine<S, IA, OA> mealyMachine(
+        Set<S> states,
+        Set<IA> inputAlphabet,
+        Set<OA> outputAlphabet,
+        Fun2<S, IA, S> transitionFunction,
+        Fun2<S, IA, OA> outputFunction,
+        Set<S> endStates,
+        S initialState
+    );
+
+    // Performs transition and output
+    @Override
+    public OA read(IA input);
+
+    // Resets the FSM to its initial state
+    public FiniteStateMachine<S, IA, OA> reset();
+
+    // Checks whether the current state is an end state
+    public boolean isInEndState();
+}
+----
+
+== Preconditions and error cases
+
+The factory methods validate, among other things:
+
+- `states`, `inputAlphabet`, `outputAlphabet` must not be empty and must not contain `null` values.
+- `transitionFunction` and the output function(s) must not be `null` and must not return `null`.
+- `endStates` must be a subset of `states` (may be empty).
+- `initialState` must be contained in `states` and must not be `null`.
+
+`read(input)` validates:
+
+- `input` != `null`.
+- `input` must be part of the input alphabet.
+
+Violations result in `NullPointerException` or `IllegalArgumentException` with localized
+messages (see xref:localisation.adoc[Localization]).
+
+== Moore vs. Mealy
+
+- Moore: output is a function of the state; stable output per state, less reactive to inputs.
+- Mealy: output is a function of (state, input); enables reactive behavior per input.
+
+== Thread safety
+
+All accesses to the current state and the execution of `read` are protected by a `ReentrantLock`.
+This makes the instance suitable for concurrent access from multiple threads.
