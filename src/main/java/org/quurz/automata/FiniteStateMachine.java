@@ -275,7 +275,7 @@ public class FiniteStateMachine<S, IA, OA>
                         = Objects.requireNonNull(
                             this.outputFunction.apply(this.currentState).apply(input),
                             nullResultFrom("outputFunction")
-                    );
+                        );
                     this.currentState
                         = newState;
                     if (this.outputAlphabet.contains(output)) {

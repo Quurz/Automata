@@ -1,0 +1,18 @@
+# Setze Standard-Verhalten auf text=auto (Git entscheidet, ob Text oder Binär)
+* text=auto
+
+# Erzwinge LF für alle Textdateien in Git
+* text eol=lf
+
+# Spezifische Windows-Dateien müssen CRLF behalten
+*.bat eol=crlf
+*.cmd eol=crlf
+gradlew.bat eol=crlf
+
+# Binärdateien nicht anfassen
+*.jar binary
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.ico binary
