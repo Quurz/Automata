@@ -1,0 +1,1 @@
+packageSearchIndex = [{"l":"Alle Packages","u":"allpackages-index.html","k":"18"},{"m":"foomp.automata","l":"org.quurz.automata"},{"m":"foomp.automata","l":"org.quurz.automata.localisation"}];updateSearchResults();
