@@ -181,39 +181,36 @@ public class FiniteStateMachine<S, IA, OA>
 
         this.states
             = new HashSet<>(
-                requireNonNullElements(
-                    requireNonEmpty(
-                        requireNonNull(states, nullValue("states")),
-                        emptyStateSet()
+                requireNonEmpty(
+                    requireNonNullElements(
+                        Objects.requireNonNull(states, nullValue("states")),
+                        _ -> new IllegalArgumentException(nullElementsInStateSet())
                     ),
-                    "states",
-                    IllegalArgumentException::new
+                    () -> new IllegalArgumentException(emptyStateSet())
                 )
-        );
+            );
 
         this.inputAlphabet
             = new HashSet<>(
-                requireNonNullElements(
-                    requireNonEmpty(
-                        requireNonNull(inputAlphabet, nullValue("inputAlphabet")),
-                        emptyInputAlphabet()
+                requireNonEmpty(
+                    requireNonNullElements(
+                        Objects.requireNonNull(inputAlphabet, nullValue("inputAlphabet")),
+                        _ -> new IllegalArgumentException(nullElementsInInputAlphabet())
                     ),
-                    "inputAlphabet",
-                    IllegalArgumentException::new
+                    () -> new IllegalArgumentException(emptyStateSet())
                 )
-        );
+            );
 
         this.outputAlphabet
             = new HashSet<>(
-                requireNonNullElements(
-                    requireNonEmpty(
-                        requireNonNull(outputAlphabet, nullValue("outputAlphabet")),
-                        emptyOutputAlphabet()
+                requireNonEmpty(
+                    requireNonNullElements(
+                        Objects.requireNonNull(outputAlphabet, nullValue("outputAlphabet")),
+                        _ -> new IllegalArgumentException(nullElementsInOutputAlphabet())
                     ),
-                    "outputAlphabet",
-                    IllegalArgumentException::new
+                    () -> new IllegalArgumentException(emptyOutputAlphabet())
                 )
-        );
+            );
 
         this.transitionFunction
             = requireNonNull(transitionFunction, nullValue("transitionFunction"));
@@ -223,7 +220,13 @@ public class FiniteStateMachine<S, IA, OA>
 
         requireNonNull(endStates, nullValue("endStates"));
         this.endStates
-            = new HashSet<>(mustBeSubSet(this.states, endStates, endStatesNotATrueSubsetOfStates()));
+            = new HashSet<>(
+                requireProperSubSet(
+                    this.states,
+                    endStates,
+                    (_, _) -> new IllegalArgumentException(endStatesNotATrueSubsetOfStates())
+                )
+            );
 
         this.executionLock
             = new ReentrantLock(true);

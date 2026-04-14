@@ -35,8 +35,7 @@ public class AutomataMessages {
      *
      * @param startState the invalid start state that was encountered
      * @return a formatted error message indicating the unknown start state
-     * @throws NullPointerException if startState is null
-     *
+     * @throws NullPointerException if {@code startState} is {@code null}
      * @since 1.0.0
      */
     public static String unknownStartState(final @NonNull Object startState) {
@@ -52,11 +51,24 @@ public class AutomataMessages {
      * </div>
      *
      * @return a formatted error message indicating that the state set is empty
-     *
      * @since 1.0.0
      */
     public static String emptyStateSet() {
         return RESOURCE_BUNDLE.getString("EMPTY_STATE_SET");
+    }
+
+    /**
+     * <div>
+     *     <p>
+     *         Creates a localized message for {@code null} elements in the state set.
+     *     </p>
+     * </div>
+     *
+     * @return a formatted error message indicating null elements in state set
+     * @since 1.0.0
+     */
+    public static String nullElementsInStateSet() {
+        return RESOURCE_BUNDLE.getString("NULL_ELEMENTS_IN_STATE_SET");
     }
 
     /**
@@ -67,11 +79,24 @@ public class AutomataMessages {
      * </div>
      *
      * @return a formatted error message indicating that the input alphabet is empty
-     *
      * @since 1.0.0
      */
     public static String emptyInputAlphabet() {
         return RESOURCE_BUNDLE.getString("EMPTY_INPUT_ALPHABET");
+    }
+
+    /**
+     * <div>
+     *     <p>
+     *         Creates a localized message for {@code null} elements in the input alphabet.
+     *     </p>
+     * </div>
+     *
+     * @return a formatted error message indicating null elements in input alphabet
+     * @since 1.0.0
+     */
+    public static String nullElementsInInputAlphabet() {
+        return RESOURCE_BUNDLE.getString("NULL_ELEMENTS_IN_INPUT_ALPHABET");
     }
 
     /**
@@ -82,11 +107,24 @@ public class AutomataMessages {
      * </div>
      *
      * @return a formatted error message indicating that the output alphabet is empty
-     *
      * @since 1.0.0
      */
     public static String emptyOutputAlphabet() {
         return RESOURCE_BUNDLE.getString("EMPTY_OUTPUT_ALPHABET");
+    }
+
+    /**
+     * <div>
+     *     <p>
+     *         Creates a localized message for {@code null} elements in the output alphabet.
+     *     </p>
+     * </div>
+     *
+     * @return a formatted error message indicating null elements in output alphabet
+     * @since 1.0.0
+     */
+    public static String nullElementsInOutputAlphabet() {
+        return RESOURCE_BUNDLE.getString("NULL_ELEMENTS_IN_OUTPUT_ALPHABET");
     }
 
     /**
@@ -97,7 +135,6 @@ public class AutomataMessages {
      * </div>
      *
      * @return a formatted error message indicating that end states are not a true subset of states
-     *
      * @since 1.0.0
      */
     public static String endStatesNotATrueSubsetOfStates() {
@@ -113,8 +150,7 @@ public class AutomataMessages {
      *
      * @param inputToken the invalid input token that was encountered
      * @return a formatted error message indicating the unknown input token
-     * @throws NullPointerException if inputToken is null
-     *
+     * @throws NullPointerException if {@code inputToken} is {@code null}
      * @since 1.0.0
      */
     public static String unknownInputToken(final @NonNull Object inputToken) {
@@ -134,8 +170,7 @@ public class AutomataMessages {
      *
      * @param state the invalid state that was encountered
      * @return a formatted error message indicating the unknown state
-     * @throws NullPointerException if state is null
-     *
+     * @throws NullPointerException if {@code state} is {@code null}
      * @since 1.0.0
      */
     public static String unknownState(final @NonNull Object state) {
@@ -155,8 +190,7 @@ public class AutomataMessages {
      *
      * @param outputToken the invalid output token that was encountered
      * @return a formatted error message indicating the unknown output token
-     * @throws NullPointerException if outputToken is null
-     *
+     * @throws NullPointerException if {@code outputToken} is {@code null}
      * @since 1.0.0
      */
     public static String unknownOutputToken(final @NonNull Object outputToken) {
