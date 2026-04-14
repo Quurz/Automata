@@ -70,7 +70,9 @@ The `FiniteStateMachine` implementation is **thread-safe**. All state transition
 
 ### Validation
 The implementation performs several checks during construction and at runtime:
-- All sets (states, alphabets) must not be null or empty.
+- All sets (states, alphabets, end states) must not be null.
+- The `states`, `inputAlphabet`, and `outputAlphabet` sets must not be empty.
+- None of the sets must contain `null` elements.
 - The `initialState` must be part of the `states` set.
 - `endStates` must be a subset of `states`.
 - At runtime, if a transition leads to an unknown state or an unknown input is provided, an `IllegalArgumentException` is thrown.
