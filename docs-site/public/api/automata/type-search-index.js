@@ -1,1 +1,0 @@
-typeSearchIndex = [{"l":"Alle Klassen und Schnittstellen","u":"allclasses-index.html","k":"18"},{"p":"org.quurz.automata.localisation","l":"AutomataMessages"},{"p":"org.quurz.automata","l":"FiniteStateMachine"},{"p":"org.quurz.automata","l":"StateMachine","k":"10"}];updateSearchResults();

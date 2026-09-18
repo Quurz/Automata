@@ -1,6 +1,6 @@
 /*
  * Dies ist ein Convention-Plugin. Es kapselt gemeinsame Build-Logik,
- * die in mehreren Submodulen (Base, Automata, etc.) wiederverwendet wird.
+ * die in mehreren Submodulen (Base, Higher, etc.) wiederverwendet wird.
  * Durch 'plugins { id("buildlogic.java-conventions") }' in den Submodulen
  * wird der gesamte hier definierte Code dort aktiv.
  */
@@ -40,6 +40,7 @@ java {
     // Automatisch ein JAR mit der Javadoc erstellen
     withJavadocJar()
 }
+
 /**
  * Registriert einen zentralen Task zum Sammeln der Dokumentation für die Astro-Seite.
  * Dieser Task kopiert Javadocs aus allen Modulen in einen statischen Ordner.
@@ -47,10 +48,11 @@ java {
 tasks.register<Copy>("assembleDocsForStarlight") {
     group = "documentation"
     description = "Sammelt Javadocs aller Module für die Astro Starlight Seite."
-    // Wir gehen davon aus, dass die Astro-Seite im Ordner 'docs-site' liegt.
-    // Falls der Ordner anders heißt, passen wir das an.
-    val targetDir = project.rootProject.file("docs-site/public/api")
 
+    // Wir gehen davon aus, dass die Astro-Seite im Ordner 'docs' liegt.
+    // Falls der Ordner anders heißt, passen wir das an.
+    val targetDir = project.rootProject.file("docs/public/api")
+    
     // In buildlogic.java-conventions.gradle.kts bezieht sich 'project' auf das Modul,
     // das dieses Plugin nutzt. Wir müssen also über rootProject auf alle Submodule zugreifen.
     project.rootProject.subprojects.forEach { sub ->
@@ -62,17 +64,9 @@ tasks.register<Copy>("assembleDocsForStarlight") {
             }
         }
     }
-    // Falls das Root-Projekt selbst Javadoc hat (bei Single-Project-Layouts):
-    val rootJavadocTask = project.rootProject.tasks.findByName("javadoc") as? Javadoc
-    if (rootJavadocTask != null) {
-        dependsOn(rootJavadocTask)
-        from(rootJavadocTask.destinationDir!!) {
-            into(project.rootProject.name.lowercase())
-        }
-    }
-
+    
     into(targetDir)
-
+    
     doFirst {
         if (!targetDir.exists()) {
             targetDir.mkdirs()
@@ -141,6 +135,14 @@ tasks.withType<JacocoReport>().configureEach {
         csv.required.set(false)
         html.required.set(true) // HTML-Report zum Anschauen im Browser
     }
+
+    // Pfad zum HTML-Report in der Konsole ausgeben
+    doLast {
+        val reportFile = reports.html.outputLocation.asFile.get().resolve("index.html")
+        if (reportFile.exists()) {
+            logger.quiet("JaCoCo Coverage Report generated: file://${reportFile.absolutePath}")
+        }
+    }
 }
 
 // Grundeinstellung für das Veröffentlichen von Maven-Artefakten
@@ -179,6 +181,8 @@ tasks.withType<JavaCompile>().configureEach {
 // Basis-Javadoc-Einstellungen
 tasks.withType<Javadoc>().configureEach {
     options.encoding = "UTF-8"
+    // Immer Englisch als Sprache für generierte Javadoc verwenden
+    (options as StandardJavadocDocletOptions).locale = "en_US"
     // Javadoc-Linting (strenge Prüfung) aktuell deaktiviert
     (options as StandardJavadocDocletOptions).addStringOption("Xdoclint:none", "-quiet")
 }
@@ -195,6 +199,18 @@ tasks.withType<Javadoc>().configureEach {
     // Den UMLDoclet-Pfad und die Klasse setzen
     docletOptions.docletpath = umlDoclet.files.toList()
     docletOptions.doclet = "nl.talsmasoftware.umldoclet.UMLDoclet"
+
+    // Pan & Zoom Script und Stylesheet für UML-Diagramme einbinden
+    val panZoomJs = project.rootProject.file("gradle/javadoc/uml-pan-zoom.js")
+    val panZoomCss = project.rootProject.file("gradle/javadoc/uml-pan-zoom.css")
+    if (panZoomJs.exists()) {
+        inputs.file(panZoomJs)
+        docletOptions.addFileOption("-add-script", panZoomJs)
+    }
+    if (panZoomCss.exists()) {
+        inputs.file(panZoomCss)
+        docletOptions.addFileOption("-add-stylesheet", panZoomCss)
+    }
 
     // Optional: Statische Ressourcen (Bilder, CSS) aus src/main/javadoc kopieren
     val javadocResources = project.file("src/main/javadoc")

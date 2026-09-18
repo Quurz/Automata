@@ -22,7 +22,6 @@
             <option value="$PROJECT_DIR$/buildSrc" />
           </set>
         </option>
-        <option name="myGradleHome" value="" />
       </GradleProjectSettings>
     </option>
   </component>
