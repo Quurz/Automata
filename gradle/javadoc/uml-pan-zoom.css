@@ -1,0 +1,263 @@
+/* UMLDoclet Pan & Zoom Interactive Controls Styling */
+
+.uml-diagram-card {
+    position: relative;
+    display: inline-block;
+    border: 1px solid rgba(127, 127, 127, 0.25);
+    border-radius: 8px;
+    background: #ffffff;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+    overflow: hidden;
+    margin: 10px 0 15px 15px;
+    max-width: 60%;
+    transition: box-shadow 0.2s ease, border-color 0.2s ease;
+}
+
+@media (prefers-color-scheme: dark) {
+    .uml-diagram-card {
+        background: #1e1e24;
+        border-color: rgba(255, 255, 255, 0.15);
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+    }
+}
+
+.uml-diagram-card.uml-float-right {
+    float: right;
+}
+
+.uml-diagram-card.uml-block-center {
+    display: block;
+    float: none;
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 95%;
+}
+
+.uml-diagram-card:hover {
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.12);
+    border-color: rgba(56, 130, 255, 0.4);
+}
+
+.uml-diagram-controls {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    display: flex;
+    gap: 4px;
+    background: rgba(255, 255, 255, 0.88);
+    backdrop-filter: blur(6px);
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    border-radius: 6px;
+    padding: 3px;
+    z-index: 10;
+    opacity: 0.65;
+    transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+@media (prefers-color-scheme: dark) {
+    .uml-diagram-controls {
+        background: rgba(30, 30, 36, 0.88);
+        border-color: rgba(255, 255, 255, 0.15);
+    }
+}
+
+.uml-diagram-card:hover .uml-diagram-controls {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.uml-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 26px;
+    height: 26px;
+    padding: 0;
+    margin: 0;
+    background: transparent;
+    color: #333333;
+    border: none;
+    border-radius: 4px;
+    font-size: 14px;
+    font-weight: bold;
+    cursor: pointer;
+    user-select: none;
+    transition: background-color 0.15s ease, color 0.15s ease, transform 0.1s ease;
+}
+
+@media (prefers-color-scheme: dark) {
+    .uml-btn {
+        color: #e0e0e0;
+    }
+}
+
+.uml-btn:hover {
+    background: rgba(0, 0, 0, 0.08);
+    color: #0056b3;
+}
+
+@media (prefers-color-scheme: dark) {
+    .uml-btn:hover {
+        background: rgba(255, 255, 255, 0.15);
+        color: #60a5fa;
+    }
+}
+
+.uml-btn:active {
+    transform: scale(0.92);
+}
+
+.uml-diagram-viewport {
+    position: relative;
+    width: 100%;
+    min-height: 180px;
+    max-height: 520px;
+    overflow: hidden;
+    cursor: grab;
+    user-select: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.uml-diagram-viewport.is-dragging {
+    cursor: grabbing !important;
+}
+
+.uml-diagram-viewport object {
+    display: block;
+    width: 100% !important;
+    max-width: 100% !important;
+    height: auto !important;
+    pointer-events: auto;
+}
+
+/* Fullscreen Modal */
+.uml-modal {
+    position: fixed;
+    inset: 0;
+    z-index: 999999;
+    display: none;
+    align-items: center;
+    justify-content: center;
+}
+
+.uml-modal.active {
+    display: flex;
+}
+
+.uml-modal-backdrop {
+    position: absolute;
+    inset: 0;
+    background: rgba(10, 10, 15, 0.75);
+    backdrop-filter: blur(8px);
+}
+
+.uml-modal-dialog {
+    position: relative;
+    width: 92vw;
+    height: 90vh;
+    background: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    z-index: 1;
+    animation: umlModalIn 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@media (prefers-color-scheme: dark) {
+    .uml-modal-dialog {
+        background: #1a1a22;
+        border-color: rgba(255, 255, 255, 0.1);
+        color: #f0f0f0;
+    }
+}
+
+@keyframes umlModalIn {
+    from {
+        opacity: 0;
+        transform: scale(0.96) translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
+}
+
+.uml-modal-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 18px;
+    border-bottom: 1px solid rgba(127, 127, 127, 0.15);
+    background: rgba(127, 127, 127, 0.04);
+}
+
+.uml-modal-title {
+    font-size: 15px;
+    font-weight: 600;
+    letter-spacing: 0.2px;
+}
+
+.uml-modal-toolbar {
+    display: flex;
+    gap: 6px;
+}
+
+.uml-modal-toolbar .uml-btn {
+    width: 30px;
+    height: 30px;
+    font-size: 16px;
+    background: rgba(127, 127, 127, 0.1);
+}
+
+.uml-modal-body {
+    flex: 1;
+    position: relative;
+    overflow: hidden;
+    background: #fdfdfd;
+}
+
+@media (prefers-color-scheme: dark) {
+    .uml-modal-body {
+        background: #14141a;
+    }
+}
+
+.uml-modal-viewport {
+    width: 100%;
+    height: 100%;
+    cursor: grab;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.uml-modal-viewport.is-dragging {
+    cursor: grabbing !important;
+}
+
+.uml-modal-viewport svg {
+    width: 100%;
+    height: 100%;
+    display: block;
+}
+
+.uml-modal-footer {
+    padding: 6px 16px;
+    font-size: 12px;
+    color: #666666;
+    background: rgba(127, 127, 127, 0.04);
+    border-top: 1px solid rgba(127, 127, 127, 0.15);
+    text-align: center;
+}
+
+@media (prefers-color-scheme: dark) {
+    .uml-modal-footer {
+        color: #999999;
+    }
+}

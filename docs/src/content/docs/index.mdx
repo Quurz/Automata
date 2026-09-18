@@ -1,0 +1,40 @@
+---
+title: Welcome to Automata
+description: Deterministic Finite State Machines (FSM), Moore and Mealy automata for modern Java.
+template: splash
+hero:
+  tagline: Thread-safe, modular, and mathematically sound Finite State Machines for modern Java.
+  image:
+    file: ../../assets/houston.webp
+  actions:
+    - text: Getting Started
+      link: /guides/automata/finitestatemachine/
+      icon: right-arrow
+    - text: Architecture & Concepts
+      link: /reference/automata/statemachine/
+      icon: open-book
+      variant: minimal
+    - text: API Reference (JavaDoc)
+      link: /api/automata/
+      icon: external
+      variant: minimal
+---
+
+import { Card, CardGrid } from '@astrojs/starlight/components';
+
+## Explore Automata
+
+<CardGrid stagger>
+	<Card title="Deterministic Finite State Machines" icon="puzzle">
+		Comprehensive support for both Moore and Mealy state machine models with rigorous mathematical contracts and full generic type safety (`S`, `IA`, `OA`).
+	</Card>
+	<Card title="Thread-Safe & Lock-Protected Execution" icon="rocket">
+		Concurrency-ready architecture using `ReentrantLock` guarantees that state transitions and output calculations execute atomically across multi-threaded applications.
+	</Card>
+	<Card title="Functional Transition Lambdas" icon="forward-slash">
+		Seamless integration with Foomp functional interfaces (`Fun`, `Fun2`) enables expressive, concise transition rules and output mappings using modern Java syntax.
+	</Card>
+	<Card title="Standardized Diagnostics & Localisation" icon="open-book">
+		Centralized resource bundle facade via `AutomataMessages` delivers clear, localized runtime validation and error reporting.
+	</Card>
+</CardGrid>
