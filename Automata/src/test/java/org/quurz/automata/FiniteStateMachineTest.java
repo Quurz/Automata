@@ -7,6 +7,8 @@ import org.junit.jupiter.api.DisplayNameGenerator;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.quurz.automata.localisation.AutomataMessages;
+import org.quurz.foomp.base.functions.Fun;
+import org.quurz.foomp.base.functions.Fun2;
 import org.slf4j.Logger;
 
 import java.util.Set;
@@ -15,7 +17,9 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatNoException;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.quurz.automata.FiniteStateMachine.mealyMachine;
+import static org.quurz.automata.FiniteStateMachine.mealyMachineBuilder;
 import static org.quurz.automata.FiniteStateMachine.mooreMachine;
+import static org.quurz.automata.FiniteStateMachine.mooreMachineBuilder;
 import static org.quurz.foomp.base.localisation.BaseMessages.nullValue;
 import static org.slf4j.LoggerFactory.getLogger;
 
@@ -1165,6 +1169,434 @@ class FiniteStateMachineTest {
             assertThat(event).isEqualTo(new StateTransitionEvent<>(State.LOCKED, State.UNLOCKED));
             assertThat(event.hashCode()).isEqualTo(new StateTransitionEvent<>(State.LOCKED, State.UNLOCKED).hashCode());
             assertThat(event.toString()).contains("LOCKED", "UNLOCKED");
+        }
+    }
+
+    @Nested
+    @DisplayName("Builder - Moore Machine")
+    class Builder_Moore {
+
+        @Test
+        void mooreMachineBuilder_builds_valid_fsm_with_fluent_chaining() {
+            LOGGER.info("FiniteStateMachine.mooreMachineBuilder: build valid FSM with arbitrary chaining order");
+
+            final var fsm = FiniteStateMachine.<State, Input, Output>mooreMachineBuilder()
+                    .states(STATES)
+                    .inputAlphabet(INPUT_ALPHABET)
+                    .outputAlphabet(OUTPUT_ALPHABET)
+                    .transitionFunction((s, i) -> switch (s) {
+                        case LOCKED -> (i == Input.COIN) ? State.UNLOCKED : State.LOCKED;
+                        case UNLOCKED -> (i == Input.PUSH) ? State.LOCKED : State.UNLOCKED;
+                    })
+                    .outputFunction(s -> (s == State.UNLOCKED) ? Output.OPEN : Output.ALARM)
+                    .endStates(END_STATES)
+                    .initialState(INITIAL_STATE)
+                    .build();
+
+            assertThat(fsm.getStates()).isEqualTo(STATES);
+            assertThat(fsm.getInputAlphabet()).isEqualTo(INPUT_ALPHABET);
+            assertThat(fsm.getOutputAlphabet()).isEqualTo(OUTPUT_ALPHABET);
+            assertThat(fsm.getEndStates()).isEqualTo(END_STATES);
+            assertThat(fsm.getInitialState()).isEqualTo(INITIAL_STATE);
+            assertThat(fsm.isInEndState()).isFalse();
+
+            assertThat(fsm.read(Input.COIN)).isEqualTo(Output.ALARM);
+            assertThat(fsm.isInEndState()).isTrue();
+        }
+
+        @Test
+        void mooreMachineBuilder_defaults_endStates_to_empty_set() {
+            LOGGER.info("FiniteStateMachine.mooreMachineBuilder: endStates should default to empty set");
+
+            final var fsm = FiniteStateMachine.<State, Input, Output>mooreMachineBuilder()
+                    .states(STATES)
+                    .inputAlphabet(INPUT_ALPHABET)
+                    .outputAlphabet(OUTPUT_ALPHABET)
+                    .transitionFunction((s, i) -> s)
+                    .outputFunction(s -> Output.THANK_YOU)
+                    .initialState(INITIAL_STATE)
+                    .build();
+
+            assertThat(fsm.getEndStates()).isEmpty();
+            assertThat(fsm.isInEndState()).isFalse();
+        }
+
+        @SuppressWarnings("DataFlowIssue")
+        @Test
+        void mooreMachineBuilder_null_checks_throw_immediately() {
+            LOGGER.info("FiniteStateMachine.mooreMachineBuilder: null arguments to builder methods throw NPE");
+
+            final var builder = FiniteStateMachine.<State, Input, Output>mooreMachineBuilder();
+
+            assertThatThrownBy(() -> builder.states((Set<State>) null))
+                    .isInstanceOf(NullPointerException.class)
+                    .hasMessage(nullValue("states"));
+
+            assertThatThrownBy(() -> builder.inputAlphabet((Set<Input>) null))
+                    .isInstanceOf(NullPointerException.class)
+                    .hasMessage(nullValue("inputAlphabet"));
+
+            assertThatThrownBy(() -> builder.outputAlphabet((Set<Output>) null))
+                    .isInstanceOf(NullPointerException.class)
+                    .hasMessage(nullValue("outputAlphabet"));
+
+            assertThatThrownBy(() -> builder.transitionFunction((Fun2<State, Input, State>) null))
+                    .isInstanceOf(NullPointerException.class)
+                    .hasMessage(nullValue("transitionFunction"));
+
+            assertThatThrownBy(() -> builder.outputFunction((Fun<State, Output>) null))
+                    .isInstanceOf(NullPointerException.class)
+                    .hasMessage(nullValue("outputFunction"));
+
+            assertThatThrownBy(() -> builder.endStates((Set<State>) null))
+                    .isInstanceOf(NullPointerException.class)
+                    .hasMessage(nullValue("endStates"));
+
+            assertThatThrownBy(() -> builder.initialState(null))
+                    .isInstanceOf(NullPointerException.class)
+                    .hasMessage(nullValue("initialState"));
+        }
+
+        @Test
+        void mooreMachineBuilder_builds_valid_fsm_with_varargs() {
+            LOGGER.info("FiniteStateMachine.mooreMachineBuilder: build valid FSM with varargs methods");
+
+            final var fsm = FiniteStateMachine.<State, Input, Output>mooreMachineBuilder()
+                    .states(State.LOCKED, State.UNLOCKED)
+                    .inputAlphabet(Input.COIN, Input.PUSH)
+                    .outputAlphabet(Output.OPEN, Output.ALARM, Output.THANK_YOU)
+                    .transitionFunction((s, i) -> switch (s) {
+                        case LOCKED -> (i == Input.COIN) ? State.UNLOCKED : State.LOCKED;
+                        case UNLOCKED -> (i == Input.PUSH) ? State.LOCKED : State.UNLOCKED;
+                    })
+                    .outputFunction(s -> (s == State.UNLOCKED) ? Output.OPEN : Output.ALARM)
+                    .endStates(State.UNLOCKED)
+                    .initialState(State.LOCKED)
+                    .build();
+
+            assertThat(fsm.getStates()).isEqualTo(STATES);
+            assertThat(fsm.getInputAlphabet()).isEqualTo(INPUT_ALPHABET);
+            assertThat(fsm.getOutputAlphabet()).isEqualTo(OUTPUT_ALPHABET);
+            assertThat(fsm.getEndStates()).isEqualTo(END_STATES);
+            assertThat(fsm.getInitialState()).isEqualTo(INITIAL_STATE);
+            assertThat(fsm.isInEndState()).isFalse();
+
+            assertThat(fsm.read(Input.COIN)).isEqualTo(Output.ALARM);
+            assertThat(fsm.isInEndState()).isTrue();
+        }
+
+        @SuppressWarnings("DataFlowIssue")
+        @Test
+        void mooreMachineBuilder_varargs_null_checks_throw_immediately() {
+            LOGGER.info("FiniteStateMachine.mooreMachineBuilder: null varargs throw NPE");
+
+            final var builder = FiniteStateMachine.<State, Input, Output>mooreMachineBuilder();
+
+            assertThatThrownBy(() -> builder.states((State[]) null))
+                    .isInstanceOf(NullPointerException.class)
+                    .hasMessage(nullValue("states"));
+
+            assertThatThrownBy(() -> builder.inputAlphabet((Input[]) null))
+                    .isInstanceOf(NullPointerException.class)
+                    .hasMessage(nullValue("inputAlphabet"));
+
+            assertThatThrownBy(() -> builder.outputAlphabet((Output[]) null))
+                    .isInstanceOf(NullPointerException.class)
+                    .hasMessage(nullValue("outputAlphabet"));
+
+            assertThatThrownBy(() -> builder.endStates((State[]) null))
+                    .isInstanceOf(NullPointerException.class)
+                    .hasMessage(nullValue("endStates"));
+
+            assertThatThrownBy(() -> builder.states(State.LOCKED, null))
+                    .isInstanceOf(NullPointerException.class);
+
+            assertThatThrownBy(() -> builder.transitionFunction((BiOutputMapping<State, Input, State>[]) null))
+                    .isInstanceOf(NullPointerException.class)
+                    .hasMessage(nullValue("transitionMappings"));
+
+            assertThatThrownBy(() -> builder.outputFunction((OutputMapping<State, Output>[]) null))
+                    .isInstanceOf(NullPointerException.class)
+                    .hasMessage(nullValue("outputMappings"));
+        }
+
+        @Test
+        void mooreMachineBuilder_builds_valid_fsm_with_declarative_mappings() {
+            LOGGER.info("FiniteStateMachine.mooreMachineBuilder: build valid FSM with declarative mappings");
+
+            final var fsm = FiniteStateMachine.<State, Input, Output>mooreMachineBuilder()
+                    .states(State.LOCKED, State.UNLOCKED)
+                    .inputAlphabet(Input.COIN, Input.PUSH)
+                    .outputAlphabet(Output.OPEN, Output.ALARM, Output.THANK_YOU)
+                    .transitionFunction(
+                            BiOutputMapping.<State, Input, State>from(State.LOCKED, Input.COIN).goTo(State.UNLOCKED),
+                            BiOutputMapping.<State, Input, State>from(State.LOCKED, Input.PUSH).goTo(State.LOCKED),
+                            BiOutputMapping.<State, Input, State>from(State.UNLOCKED, Input.PUSH).goTo(State.LOCKED),
+                            BiOutputMapping.<State, Input, State>from(State.UNLOCKED, Input.COIN).goTo(State.UNLOCKED)
+                    )
+                    .outputFunction(
+                            OutputMapping.<State, Output>from(State.LOCKED).goTo(Output.ALARM),
+                            OutputMapping.<State, Output>from(State.UNLOCKED).goTo(Output.OPEN)
+                    )
+                    .endStates(State.UNLOCKED)
+                    .initialState(State.LOCKED)
+                    .build();
+
+            assertThat(fsm.getStates()).isEqualTo(STATES);
+            assertThat(fsm.getInputAlphabet()).isEqualTo(INPUT_ALPHABET);
+            assertThat(fsm.getOutputAlphabet()).isEqualTo(OUTPUT_ALPHABET);
+            assertThat(fsm.getEndStates()).isEqualTo(END_STATES);
+            assertThat(fsm.getInitialState()).isEqualTo(INITIAL_STATE);
+            assertThat(fsm.isInEndState()).isFalse();
+
+            assertThat(fsm.read(Input.COIN)).isEqualTo(Output.ALARM);
+            assertThat(fsm.isInEndState()).isTrue();
+            assertThat(fsm.read(Input.PUSH)).isEqualTo(Output.OPEN);
+            assertThat(fsm.isInEndState()).isFalse();
+        }
+
+        @Test
+        void mooreMachineBuilder_incomplete_build_throws() {
+            LOGGER.info("FiniteStateMachine.mooreMachineBuilder: incomplete builder throws upon build()");
+
+            final var builder = FiniteStateMachine.<State, Input, Output>mooreMachineBuilder()
+                    .states(STATES)
+                    .inputAlphabet(INPUT_ALPHABET)
+                    .outputAlphabet(OUTPUT_ALPHABET);
+
+            assertThatThrownBy(builder::build)
+                    .isInstanceOf(NullPointerException.class);
+
+            final var builderMissingOutput = FiniteStateMachine.<State, Input, Output>mooreMachineBuilder()
+                    .states(STATES)
+                    .inputAlphabet(INPUT_ALPHABET)
+                    .outputAlphabet(OUTPUT_ALPHABET)
+                    .transitionFunction((s, i) -> s)
+                    .initialState(INITIAL_STATE);
+
+            assertThatThrownBy(builderMissingOutput::build)
+                    .isInstanceOf(NullPointerException.class)
+                    .hasMessage(nullValue("outputFunction"));
+        }
+    }
+
+    @Nested
+    @DisplayName("Builder - Mealy Machine")
+    class Builder_Mealy {
+
+        @Test
+        void mealyMachineBuilder_builds_valid_fsm_with_fluent_chaining() {
+            LOGGER.info("FiniteStateMachine.mealyMachineBuilder: build valid Mealy FSM with fluent chaining");
+
+            final var fsm = FiniteStateMachine.<State, Input, Output>mealyMachineBuilder()
+                    .states(STATES)
+                    .inputAlphabet(INPUT_ALPHABET)
+                    .outputAlphabet(OUTPUT_ALPHABET)
+                    .transitionFunction((s, i) -> switch (s) {
+                        case LOCKED -> (i == Input.COIN) ? State.UNLOCKED : State.LOCKED;
+                        case UNLOCKED -> (i == Input.PUSH) ? State.LOCKED : State.UNLOCKED;
+                    })
+                    .outputFunction((s, i) -> switch (s) {
+                        case LOCKED -> (i == Input.COIN) ? Output.THANK_YOU : Output.ALARM;
+                        case UNLOCKED -> (i == Input.PUSH) ? Output.OPEN : Output.THANK_YOU;
+                    })
+                    .endStates(END_STATES)
+                    .initialState(INITIAL_STATE)
+                    .build();
+
+            assertThat(fsm.getStates()).isEqualTo(STATES);
+            assertThat(fsm.getInputAlphabet()).isEqualTo(INPUT_ALPHABET);
+            assertThat(fsm.getOutputAlphabet()).isEqualTo(OUTPUT_ALPHABET);
+            assertThat(fsm.getEndStates()).isEqualTo(END_STATES);
+            assertThat(fsm.getInitialState()).isEqualTo(INITIAL_STATE);
+            assertThat(fsm.isInEndState()).isFalse();
+
+            assertThat(fsm.read(Input.COIN)).isEqualTo(Output.THANK_YOU);
+            assertThat(fsm.isInEndState()).isTrue();
+            assertThat(fsm.read(Input.PUSH)).isEqualTo(Output.OPEN);
+            assertThat(fsm.isInEndState()).isFalse();
+        }
+
+        @Test
+        void mealyMachineBuilder_defaults_endStates_to_empty_set() {
+            LOGGER.info("FiniteStateMachine.mealyMachineBuilder: endStates should default to empty set");
+
+            final var fsm = FiniteStateMachine.<State, Input, Output>mealyMachineBuilder()
+                    .states(STATES)
+                    .inputAlphabet(INPUT_ALPHABET)
+                    .outputAlphabet(OUTPUT_ALPHABET)
+                    .transitionFunction((s, i) -> s)
+                    .outputFunction((s, i) -> Output.THANK_YOU)
+                    .initialState(INITIAL_STATE)
+                    .build();
+
+            assertThat(fsm.getEndStates()).isEmpty();
+            assertThat(fsm.isInEndState()).isFalse();
+        }
+
+        @SuppressWarnings("DataFlowIssue")
+        @Test
+        void mealyMachineBuilder_null_checks_throw_immediately() {
+            LOGGER.info("FiniteStateMachine.mealyMachineBuilder: null arguments to builder methods throw NPE");
+
+            final var builder = FiniteStateMachine.<State, Input, Output>mealyMachineBuilder();
+
+            assertThatThrownBy(() -> builder.states((Set<State>) null))
+                    .isInstanceOf(NullPointerException.class)
+                    .hasMessage(nullValue("states"));
+
+            assertThatThrownBy(() -> builder.inputAlphabet((Set<Input>) null))
+                    .isInstanceOf(NullPointerException.class)
+                    .hasMessage(nullValue("inputAlphabet"));
+
+            assertThatThrownBy(() -> builder.outputAlphabet((Set<Output>) null))
+                    .isInstanceOf(NullPointerException.class)
+                    .hasMessage(nullValue("outputAlphabet"));
+
+            assertThatThrownBy(() -> builder.transitionFunction((Fun2<State, Input, State>) null))
+                    .isInstanceOf(NullPointerException.class)
+                    .hasMessage(nullValue("transitionFunction"));
+
+            assertThatThrownBy(() -> builder.outputFunction((Fun2<State, Input, Output>) null))
+                    .isInstanceOf(NullPointerException.class)
+                    .hasMessage(nullValue("outputFunction"));
+
+            assertThatThrownBy(() -> builder.endStates((Set<State>) null))
+                    .isInstanceOf(NullPointerException.class)
+                    .hasMessage(nullValue("endStates"));
+
+            assertThatThrownBy(() -> builder.initialState(null))
+                    .isInstanceOf(NullPointerException.class)
+                    .hasMessage(nullValue("initialState"));
+        }
+
+        @Test
+        void mealyMachineBuilder_builds_valid_fsm_with_varargs() {
+            LOGGER.info("FiniteStateMachine.mealyMachineBuilder: build valid Mealy FSM with varargs methods");
+
+            final var fsm = FiniteStateMachine.<State, Input, Output>mealyMachineBuilder()
+                    .states(State.LOCKED, State.UNLOCKED)
+                    .inputAlphabet(Input.COIN, Input.PUSH)
+                    .outputAlphabet(Output.OPEN, Output.ALARM, Output.THANK_YOU)
+                    .transitionFunction((s, i) -> switch (s) {
+                        case LOCKED -> (i == Input.COIN) ? State.UNLOCKED : State.LOCKED;
+                        case UNLOCKED -> (i == Input.PUSH) ? State.LOCKED : State.UNLOCKED;
+                    })
+                    .outputFunction((s, i) -> switch (s) {
+                        case LOCKED -> (i == Input.COIN) ? Output.THANK_YOU : Output.ALARM;
+                        case UNLOCKED -> (i == Input.PUSH) ? Output.OPEN : Output.THANK_YOU;
+                    })
+                    .endStates(State.UNLOCKED)
+                    .initialState(State.LOCKED)
+                    .build();
+
+            assertThat(fsm.getStates()).isEqualTo(STATES);
+            assertThat(fsm.getInputAlphabet()).isEqualTo(INPUT_ALPHABET);
+            assertThat(fsm.getOutputAlphabet()).isEqualTo(OUTPUT_ALPHABET);
+            assertThat(fsm.getEndStates()).isEqualTo(END_STATES);
+            assertThat(fsm.getInitialState()).isEqualTo(INITIAL_STATE);
+            assertThat(fsm.isInEndState()).isFalse();
+
+            assertThat(fsm.read(Input.COIN)).isEqualTo(Output.THANK_YOU);
+            assertThat(fsm.isInEndState()).isTrue();
+            assertThat(fsm.read(Input.PUSH)).isEqualTo(Output.OPEN);
+            assertThat(fsm.isInEndState()).isFalse();
+        }
+
+        @SuppressWarnings("DataFlowIssue")
+        @Test
+        void mealyMachineBuilder_varargs_null_checks_throw_immediately() {
+            LOGGER.info("FiniteStateMachine.mealyMachineBuilder: null varargs throw NPE");
+
+            final var builder = FiniteStateMachine.<State, Input, Output>mealyMachineBuilder();
+
+            assertThatThrownBy(() -> builder.states((State[]) null))
+                    .isInstanceOf(NullPointerException.class)
+                    .hasMessage(nullValue("states"));
+
+            assertThatThrownBy(() -> builder.inputAlphabet((Input[]) null))
+                    .isInstanceOf(NullPointerException.class)
+                    .hasMessage(nullValue("inputAlphabet"));
+
+            assertThatThrownBy(() -> builder.outputAlphabet((Output[]) null))
+                    .isInstanceOf(NullPointerException.class)
+                    .hasMessage(nullValue("outputAlphabet"));
+
+            assertThatThrownBy(() -> builder.endStates((State[]) null))
+                    .isInstanceOf(NullPointerException.class)
+                    .hasMessage(nullValue("endStates"));
+
+            assertThatThrownBy(() -> builder.states(State.LOCKED, null))
+                    .isInstanceOf(NullPointerException.class);
+
+            assertThatThrownBy(() -> builder.transitionFunction((BiOutputMapping<State, Input, State>[]) null))
+                    .isInstanceOf(NullPointerException.class)
+                    .hasMessage(nullValue("transitionMappings"));
+
+            assertThatThrownBy(() -> builder.outputFunction((BiOutputMapping<State, Input, Output>[]) null))
+                    .isInstanceOf(NullPointerException.class)
+                    .hasMessage(nullValue("outputMappings"));
+        }
+
+        @Test
+        void mealyMachineBuilder_builds_valid_fsm_with_declarative_mappings() {
+            LOGGER.info("FiniteStateMachine.mealyMachineBuilder: build valid Mealy FSM with declarative mappings");
+
+            final var fsm = FiniteStateMachine.<State, Input, Output>mealyMachineBuilder()
+                    .states(State.LOCKED, State.UNLOCKED)
+                    .inputAlphabet(Input.COIN, Input.PUSH)
+                    .outputAlphabet(Output.OPEN, Output.ALARM, Output.THANK_YOU)
+                    .transitionFunction(
+                            BiOutputMapping.<State, Input, State>from(State.LOCKED, Input.COIN).goTo(State.UNLOCKED),
+                            BiOutputMapping.<State, Input, State>from(State.LOCKED, Input.PUSH).goTo(State.LOCKED),
+                            BiOutputMapping.<State, Input, State>from(State.UNLOCKED, Input.PUSH).goTo(State.LOCKED),
+                            BiOutputMapping.<State, Input, State>from(State.UNLOCKED, Input.COIN).goTo(State.UNLOCKED)
+                    )
+                    .outputFunction(
+                            BiOutputMapping.<State, Input, Output>from(State.LOCKED, Input.COIN).goTo(Output.THANK_YOU),
+                            BiOutputMapping.<State, Input, Output>from(State.LOCKED, Input.PUSH).goTo(Output.ALARM),
+                            BiOutputMapping.<State, Input, Output>from(State.UNLOCKED, Input.PUSH).goTo(Output.OPEN),
+                            BiOutputMapping.<State, Input, Output>from(State.UNLOCKED, Input.COIN).goTo(Output.THANK_YOU)
+                    )
+                    .endStates(State.UNLOCKED)
+                    .initialState(State.LOCKED)
+                    .build();
+
+            assertThat(fsm.getStates()).isEqualTo(STATES);
+            assertThat(fsm.getInputAlphabet()).isEqualTo(INPUT_ALPHABET);
+            assertThat(fsm.getOutputAlphabet()).isEqualTo(OUTPUT_ALPHABET);
+            assertThat(fsm.getEndStates()).isEqualTo(END_STATES);
+            assertThat(fsm.getInitialState()).isEqualTo(INITIAL_STATE);
+            assertThat(fsm.isInEndState()).isFalse();
+
+            assertThat(fsm.read(Input.COIN)).isEqualTo(Output.THANK_YOU);
+            assertThat(fsm.isInEndState()).isTrue();
+            assertThat(fsm.read(Input.PUSH)).isEqualTo(Output.OPEN);
+            assertThat(fsm.isInEndState()).isFalse();
+        }
+
+        @Test
+        void mealyMachineBuilder_incomplete_build_throws() {
+            LOGGER.info("FiniteStateMachine.mealyMachineBuilder: incomplete builder throws upon build()");
+
+            final var builder = FiniteStateMachine.<State, Input, Output>mealyMachineBuilder()
+                    .states(STATES)
+                    .inputAlphabet(INPUT_ALPHABET)
+                    .outputAlphabet(OUTPUT_ALPHABET);
+
+            assertThatThrownBy(builder::build)
+                    .isInstanceOf(NullPointerException.class);
+
+            final var builderMissingOutput = FiniteStateMachine.<State, Input, Output>mealyMachineBuilder()
+                    .states(STATES)
+                    .inputAlphabet(INPUT_ALPHABET)
+                    .outputAlphabet(OUTPUT_ALPHABET)
+                    .transitionFunction((s, i) -> s)
+                    .initialState(INITIAL_STATE);
+
+            assertThatThrownBy(builderMissingOutput::build)
+                    .isInstanceOf(NullPointerException.class)
+                    .hasMessage(nullValue("outputFunction"));
         }
     }
 

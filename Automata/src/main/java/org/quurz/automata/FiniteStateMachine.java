@@ -64,6 +64,517 @@ public class FiniteStateMachine<S, IA, OA>
     /**
      * <div>
      *     <p>
+     *         Generic builder interface for configuring and creating deterministic finite state machines.
+     *     </p>
+     *     <p>
+     *         This interface uses a self-referential generic parameter {@code B} (Curiously Recurring Template
+     *         Pattern) to preserve fluent method chaining across specialized builder subtypes.
+     *     </p>
+     * </div>
+     *
+     * @param <S>  the type of states
+     * @param <IA> the type of input symbols (Input Alphabet)
+     * @param <OA> the type of output symbols (Output Alphabet)
+     * @param <B>  the concrete builder type for fluent method chaining
+     *
+     * @since 1.0.0
+     *
+     * @author Alexander Schell
+     */
+    public interface FiniteStateMachineBuilder<S, IA, OA, B extends FiniteStateMachineBuilder<S, IA, OA, B>> {
+
+        /**
+         * <div>
+         *     <p>
+         *         Sets the state set of the machine.
+         *     </p>
+         * </div>
+         *
+         * @param states the set of all valid states; must not be {@code null}
+         * @return this builder instance for method chaining
+         * @throws NullPointerException if {@code states} is {@code null}
+         *
+         * @since 1.0.0
+         */
+        B states(final @NonNull Set<S> states);
+
+        /**
+         * <div>
+         *     <p>
+         *         Sets the state set of the machine using varargs.
+         *     </p>
+         * </div>
+         *
+         * @param states the states defining the state set; must not be {@code null}
+         * @return this builder instance for method chaining
+         * @throws NullPointerException if {@code states} is {@code null} or contains {@code null} elements
+         *
+         * @since 1.0.0
+         */
+        @SuppressWarnings("unchecked")
+        default B states(final @NonNull S... states) {
+            Objects.requireNonNull(states, nullValue("states"));
+
+            return states(Set.of(states));
+        }
+
+        /**
+         * <div>
+         *     <p>
+         *         Sets the input alphabet of the machine.
+         *     </p>
+         * </div>
+         *
+         * @param inputAlphabet the set of all valid input symbols; must not be {@code null}
+         * @return this builder instance for method chaining
+         * @throws NullPointerException if {@code inputAlphabet} is {@code null}
+         *
+         * @since 1.0.0
+         */
+        B inputAlphabet(final @NonNull Set<IA> inputAlphabet);
+
+        /**
+         * <div>
+         *     <p>
+         *         Sets the input alphabet of the machine using varargs.
+         *     </p>
+         * </div>
+         *
+         * @param inputAlphabet the input symbols defining the input alphabet; must not be {@code null}
+         * @return this builder instance for method chaining
+         * @throws NullPointerException if {@code inputAlphabet} is {@code null} or contains {@code null} elements
+         *
+         * @since 1.0.0
+         */
+        @SuppressWarnings("unchecked")
+        default B inputAlphabet(final @NonNull IA... inputAlphabet) {
+            Objects.requireNonNull(inputAlphabet, nullValue("inputAlphabet"));
+
+            return inputAlphabet(Set.of(inputAlphabet));
+        }
+
+        /**
+         * <div>
+         *     <p>
+         *         Sets the output alphabet of the machine.
+         *     </p>
+         * </div>
+         *
+         * @param outputAlphabet the set of all valid output symbols; must not be {@code null}
+         * @return this builder instance for method chaining
+         * @throws NullPointerException if {@code outputAlphabet} is {@code null}
+         *
+         * @since 1.0.0
+         */
+        B outputAlphabet(final @NonNull Set<OA> outputAlphabet);
+
+        /**
+         * <div>
+         *     <p>
+         *         Sets the output alphabet of the machine using varargs.
+         *     </p>
+         * </div>
+         *
+         * @param outputAlphabet the output symbols defining the output alphabet; must not be {@code null}
+         * @return this builder instance for method chaining
+         * @throws NullPointerException if {@code outputAlphabet} is {@code null} or contains {@code null} elements
+         *
+         * @since 1.0.0
+         */
+        @SuppressWarnings("unchecked")
+        default B outputAlphabet(final @NonNull OA... outputAlphabet) {
+            Objects.requireNonNull(outputAlphabet, nullValue("outputAlphabet"));
+
+            return outputAlphabet(Set.of(outputAlphabet));
+        }
+
+        /**
+         * <div>
+         *     <p>
+         *         Sets the state transition function of the machine.
+         *     </p>
+         * </div>
+         *
+         * @param transitionFunction the state transition function mapping (state, input) to next state; must not be {@code null}
+         * @return this builder instance for method chaining
+         * @throws NullPointerException if {@code transitionFunction} is {@code null}
+         *
+         * @since 1.0.0
+         */
+        B transitionFunction(final @NonNull Fun2<S, IA, S> transitionFunction);
+
+        /**
+         * <div>
+         *     <p>
+         *         Sets the state transition function of the machine using declarative transition mappings.
+         *     </p>
+         * </div>
+         *
+         * @param transitionMappings the declarative transition mappings defining transitions from (state, input) to next state;
+         *                           must not be {@code null} or contain {@code null} elements
+         * @return this builder instance for method chaining
+         * @throws NullPointerException  if {@code transitionMappings} is {@code null} or contains {@code null} elements
+         * @throws IllegalStateException if duplicate (state, input) transitions are provided
+         *
+         * @since 1.0.0
+         */
+        @SuppressWarnings("unchecked")
+        default B transitionFunction(final @NonNull BiOutputMapping<S, IA, S>... transitionMappings) {
+            Objects.requireNonNull(transitionMappings, nullValue("transitionMappings"));
+
+            return transitionFunction(BiOutputMapping.biCombine(transitionMappings));
+        }
+
+        /**
+         * <div>
+         *     <p>
+         *         Sets the set of accepting or final states of the machine.
+         *     </p>
+         *     <p>
+         *         If not explicitly specified, defaults to an empty set.
+         *     </p>
+         * </div>
+         *
+         * @param endStates the set of end states; must not be {@code null}
+         * @return this builder instance for method chaining
+         * @throws NullPointerException if {@code endStates} is {@code null}
+         *
+         * @since 1.0.0
+         */
+        B endStates(final @NonNull Set<S> endStates);
+
+        /**
+         * <div>
+         *     <p>
+         *         Sets the set of accepting or final states of the machine using varargs.
+         *     </p>
+         * </div>
+         *
+         * @param endStates the end states; must not be {@code null}
+         * @return this builder instance for method chaining
+         * @throws NullPointerException if {@code endStates} is {@code null} or contains {@code null} elements
+         *
+         * @since 1.0.0
+         */
+        @SuppressWarnings("unchecked")
+        default B endStates(final @NonNull S... endStates) {
+            Objects.requireNonNull(endStates, nullValue("endStates"));
+
+            return endStates(Set.of(endStates));
+        }
+
+        /**
+         * <div>
+         *     <p>
+         *         Sets the initial state of the machine.
+         *     </p>
+         * </div>
+         *
+         * @param initialState the initial state; must not be {@code null}
+         * @return this builder instance for method chaining
+         * @throws NullPointerException if {@code initialState} is {@code null}
+         *
+         * @since 1.0.0
+         */
+        B initialState(final @NonNull S initialState);
+
+        /**
+         * <div>
+         *     <p>
+         *         Builds and validates the configured {@link FiniteStateMachine} instance.
+         *     </p>
+         * </div>
+         *
+         * @return a new, configured finite state machine
+         * @throws NullPointerException     if any required property is {@code null} or contains {@code null} elements
+         * @throws IllegalArgumentException if state machine invariants are violated
+         *
+         * @since 1.0.0
+         */
+        FiniteStateMachine<S, IA, OA> build();
+
+    }
+
+    /**
+     * <div>
+     *     <p>
+     *         Builder for configuring and creating Moore-type finite state machines.
+     *     </p>
+     * </div>
+     *
+     * @param <S>  the type of states
+     * @param <IA> the type of input symbols (Input Alphabet)
+     * @param <OA> the type of output symbols (Output Alphabet)
+     *
+     * @since 1.0.0
+     *
+     * @author Alexander Schell
+     */
+    public interface MooreMachineBuilder<S, IA, OA>
+            extends FiniteStateMachineBuilder<S, IA, OA, MooreMachineBuilder<S, IA, OA>> {
+
+        /**
+         * <div>
+         *     <p>
+         *         Sets the Moore output function mapping each state to an output symbol.
+         *     </p>
+         * </div>
+         *
+         * @param outputFunction the output function mapping state to output; must not be {@code null}
+         * @return this builder instance for method chaining
+         * @throws NullPointerException if {@code outputFunction} is {@code null}
+         *
+         * @since 1.0.0
+         */
+        MooreMachineBuilder<S, IA, OA> outputFunction(final @NonNull Fun<S, OA> outputFunction);
+
+        /**
+         * <div>
+         *     <p>
+         *         Sets the Moore output function using declarative output mappings.
+         *     </p>
+         * </div>
+         *
+         * @param outputMappings the declarative output mappings from state to output symbol;
+         *                       must not be {@code null} or contain {@code null} elements
+         * @return this builder instance for method chaining
+         * @throws NullPointerException  if {@code outputMappings} is {@code null} or contains {@code null} elements
+         * @throws IllegalStateException if duplicate state mappings are provided
+         *
+         * @since 1.0.0
+         */
+        @SuppressWarnings("unchecked")
+        default MooreMachineBuilder<S, IA, OA> outputFunction(final @NonNull OutputMapping<S, OA>... outputMappings) {
+            Objects.requireNonNull(outputMappings, nullValue("outputMappings"));
+
+            return outputFunction(OutputMapping.combine(outputMappings));
+        }
+
+    }
+
+    /**
+     * <div>
+     *     <p>
+     *         Builder for configuring and creating Mealy-type finite state machines.
+     *     </p>
+     * </div>
+     *
+     * @param <S>  the type of states
+     * @param <IA> the type of input symbols (Input Alphabet)
+     * @param <OA> the type of output symbols (Output Alphabet)
+     *
+     * @since 1.0.0
+     *
+     * @author Alexander Schell
+     */
+    public interface MealyMachineBuilder<S, IA, OA>
+            extends FiniteStateMachineBuilder<S, IA, OA, MealyMachineBuilder<S, IA, OA>> {
+
+        /**
+         * <div>
+         *     <p>
+         *         Sets the Mealy output function mapping each (state, input) pair to an output symbol.
+         *     </p>
+         * </div>
+         *
+         * @param outputFunction the output function mapping (state, input) to output; must not be {@code null}
+         * @return this builder instance for method chaining
+         * @throws NullPointerException if {@code outputFunction} is {@code null}
+         *
+         * @since 1.0.0
+         */
+        MealyMachineBuilder<S, IA, OA> outputFunction(final @NonNull Fun2<S, IA, OA> outputFunction);
+
+        /**
+         * <div>
+         *     <p>
+         *         Sets the Mealy output function using declarative output mappings.
+         *     </p>
+         * </div>
+         *
+         * @param outputMappings the declarative output mappings from (state, input) to output symbol;
+         *                       must not be {@code null} or contain {@code null} elements
+         * @return this builder instance for method chaining
+         * @throws NullPointerException  if {@code outputMappings} is {@code null} or contains {@code null} elements
+         * @throws IllegalStateException if duplicate (state, input) mappings are provided
+         *
+         * @since 1.0.0
+         */
+        @SuppressWarnings("unchecked")
+        default MealyMachineBuilder<S, IA, OA> outputFunction(final @NonNull BiOutputMapping<S, IA, OA>... outputMappings) {
+            Objects.requireNonNull(outputMappings, nullValue("outputMappings"));
+
+            return outputFunction(BiOutputMapping.biCombine(outputMappings));
+        }
+
+    }
+
+    private static abstract class AbstractFiniteStateMachineBuilder<S, IA, OA, B extends FiniteStateMachineBuilder<S, IA, OA, B>>
+            implements FiniteStateMachineBuilder<S, IA, OA, B> {
+
+        protected Set<S> states;
+        protected Set<IA> inputAlphabet;
+        protected Set<OA> outputAlphabet;
+        protected Fun2<S, IA, S> transitionFunction;
+        protected Fun<S, Fun<IA, OA>> outputFunction;
+        protected Set<S> endStates = Set.of();
+        protected S initialState;
+
+        @SuppressWarnings("unchecked")
+        protected B self() {
+            return (B) this;
+        }
+
+        @Override
+        public B states(final @NonNull Set<S> states) {
+            Objects.requireNonNull(states, nullValue("states"));
+
+            this.states
+                = states;
+
+            return self();
+        }
+
+        @Override
+        public B inputAlphabet(final @NonNull Set<IA> inputAlphabet) {
+            Objects.requireNonNull(inputAlphabet, nullValue("inputAlphabet"));
+
+            this.inputAlphabet
+                = inputAlphabet;
+
+            return self();
+        }
+
+        @Override
+        public B outputAlphabet(final @NonNull Set<OA> outputAlphabet) {
+            Objects.requireNonNull(outputAlphabet, nullValue("outputAlphabet"));
+
+            this.outputAlphabet
+                = outputAlphabet;
+
+            return self();
+        }
+
+        @Override
+        public B transitionFunction(final @NonNull Fun2<S, IA, S> transitionFunction) {
+            Objects.requireNonNull(transitionFunction, nullValue("transitionFunction"));
+
+            this.transitionFunction
+                = transitionFunction;
+
+            return self();
+        }
+
+        @Override
+        public B endStates(final @NonNull Set<S> endStates) {
+            Objects.requireNonNull(endStates, nullValue("endStates"));
+
+            this.endStates
+                = endStates;
+
+            return self();
+        }
+
+        @Override
+        public B initialState(final @NonNull S initialState) {
+            Objects.requireNonNull(initialState, nullValue("initialState"));
+
+            this.initialState
+                = initialState;
+
+            return self();
+        }
+
+        @Override
+        public FiniteStateMachine<S, IA, OA> build() {
+            Objects.requireNonNull(this.outputFunction, nullValue("outputFunction"));
+
+            return new FiniteStateMachine<>(
+                this.states,
+                this.inputAlphabet,
+                this.outputAlphabet,
+                this.transitionFunction,
+                this.outputFunction,
+                this.endStates,
+                this.initialState
+            );
+        }
+
+    }
+
+    private static final class MooreMachineBuilderImpl<S, IA, OA>
+            extends AbstractFiniteStateMachineBuilder<S, IA, OA, MooreMachineBuilder<S, IA, OA>>
+            implements MooreMachineBuilder<S, IA, OA> {
+
+        @Override
+        public MooreMachineBuilder<S, IA, OA> outputFunction(final @NonNull Fun<S, OA> outputFunction) {
+            Objects.requireNonNull(outputFunction, nullValue("outputFunction"));
+
+            this.outputFunction
+                = s -> _ -> outputFunction.apply(s);
+
+            return this;
+        }
+
+    }
+
+    private static final class MealyMachineBuilderImpl<S, IA, OA>
+            extends AbstractFiniteStateMachineBuilder<S, IA, OA, MealyMachineBuilder<S, IA, OA>>
+            implements MealyMachineBuilder<S, IA, OA> {
+
+        @Override
+        public MealyMachineBuilder<S, IA, OA> outputFunction(final @NonNull Fun2<S, IA, OA> outputFunction) {
+            Objects.requireNonNull(outputFunction, nullValue("outputFunction"));
+
+            this.outputFunction
+                = s -> ia -> outputFunction.apply(s, ia);
+
+            return this;
+        }
+
+    }
+
+    /**
+     * <div>
+     *     <p>
+     *         Creates a new fluent builder for configuring a Moore machine.
+     *     </p>
+     * </div>
+     *
+     * @param <S>  the type of states
+     * @param <IA> the type of input symbols (Input Alphabet)
+     * @param <OA> the type of output symbols (Output Alphabet)
+     * @return a new {@link MooreMachineBuilder} instance
+     *
+     * @since 1.0.0
+     */
+    @SuppressWarnings("unused")
+    public static <S, IA, OA> MooreMachineBuilder<S, IA, OA> mooreMachineBuilder() {
+        return new MooreMachineBuilderImpl<>();
+    }
+
+    /**
+     * <div>
+     *     <p>
+     *         Creates a new fluent builder for configuring a Mealy machine.
+     *     </p>
+     * </div>
+     *
+     * @param <S>  the type of states
+     * @param <IA> the type of input symbols (Input Alphabet)
+     * @param <OA> the type of output symbols (Output Alphabet)
+     * @return a new {@link MealyMachineBuilder} instance
+     *
+     * @since 1.0.0
+     */
+    @SuppressWarnings("unused")
+    public static <S, IA, OA> MealyMachineBuilder<S, IA, OA> mealyMachineBuilder() {
+        return new MealyMachineBuilderImpl<>();
+    }
+
+    /**
+     * <div>
+     *     <p>
      *         Creates a Moore machine, where outputs depend only on the current state.
      *     </p>
      *     <p>
