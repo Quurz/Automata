@@ -25,7 +25,7 @@ public class FiniteStateMachine<S, IA, OA> implements StateMachine<S, IA, OA>
 
 ## Factory Methods
 
-Instances must be created using the static factory methods `mooreMachine` or `mealyMachine`.
+Instances can be created either via direct static factory methods `mooreMachine` / `mealyMachine` or via fluent builders `mooreMachineBuilder` / `mealyMachineBuilder`.
 
 ### `mooreMachine`
 
@@ -84,6 +84,32 @@ public static <S, IA, OA> FiniteStateMachine<S, IA, OA> mealyMachine(
 * **Throws:**
   * `NullPointerException` – if any required parameter is `null` or any collection contains `null` elements.
   * `IllegalArgumentException` – if `states`, `inputAlphabet`, or `outputAlphabet` is empty, `initialState` is not in `states`, or `endStates` is not a subset of `states`.
+
+---
+
+## Fluent Builders
+
+For readable and fluent configuration, `FiniteStateMachine` provides builders utilizing the *Curiously Recurring Template Pattern (CRTP)*:
+
+```java
+public static <S, IA, OA> MooreMachineBuilder<S, IA, OA> mooreMachineBuilder()
+public static <S, IA, OA> MealyMachineBuilder<S, IA, OA> mealyMachineBuilder()
+```
+
+### Builder Interfaces
+
+* **`FiniteStateMachineBuilder<S, IA, OA, B extends FiniteStateMachineBuilder<S, IA, OA, B>>`**:
+  * `states(Set<S>)` / `states(S...)` – Sets valid state set (via `Set` or varargs).
+  * `inputAlphabet(Set<IA>)` / `inputAlphabet(IA...)` – Sets accepted input symbols (via `Set` or varargs).
+  * `outputAlphabet(Set<OA>)` / `outputAlphabet(OA...)` – Sets valid output symbols (via `Set` or varargs).
+  * `transitionFunction(Fun2<S, IA, S>)` / `transitionFunction(BiOutputMapping<S, IA, S>...)` – Sets transition function via `Fun2` or declarative [`BiOutputMapping`](/reference/automata/bioutputmapping/) varargs.
+  * `endStates(Set<S>)` / `endStates(S...)` – Sets accepting states (optional; defaults to empty set).
+  * `initialState(S)` – Sets start state.
+  * `build()` – Validates invariants and constructs the `FiniteStateMachine`.
+* **`MooreMachineBuilder<S, IA, OA>`**:
+  * `outputFunction(Fun<S, OA>)` / `outputFunction(OutputMapping<S, OA>...)` – Configures Moore state-to-output mapping via `Fun` or declarative [`OutputMapping`](/reference/automata/outputmapping/) varargs.
+* **`MealyMachineBuilder<S, IA, OA>`**:
+  * `outputFunction(Fun2<S, IA, OA>)` / `outputFunction(BiOutputMapping<S, IA, OA>...)` – Configures Mealy (state, input)-to-output mapping via `Fun2` or declarative [`BiOutputMapping`](/reference/automata/bioutputmapping/) varargs.
 
 ---
 

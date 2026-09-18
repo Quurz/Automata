@@ -118,7 +118,84 @@ A turnstile's response depends both on whether it is locked and what the user do
 
 ---
 
-## 4. Registering State Transition Listeners
+## 4. Fluent Construction with Builders
+
+In addition to static factory methods, you can construct finite state machines using fluent builders. Thanks to *Self-Types (CRTP)* and *varargs convenience overloads*, methods can be chained in any order without boilerplate `Set.of(...)`:
+
+<Tabs>
+  <TabItem label="Moore Builder (Varargs)">
+    ```java
+    var trafficLight = FiniteStateMachine.<State, Signal, Display>mooreMachineBuilder()
+        .states(State.RED, State.RED_AMBER, State.GREEN, State.AMBER)
+        .inputAlphabet(Signal.TICK)
+        .outputAlphabet(Display.STOP, Display.PREPARE_GO, Display.GO, Display.PREPARE_STOP)
+        .transitionFunction((state, signal) -> switch (state) {
+            case RED -> State.RED_AMBER;
+            case RED_AMBER -> State.GREEN;
+            case GREEN -> State.AMBER;
+            case AMBER -> State.RED;
+        })
+        .outputFunction(state -> switch (state) {
+            case RED -> Display.STOP;
+            case RED_AMBER -> Display.PREPARE_GO;
+            case GREEN -> Display.GO;
+            case AMBER -> Display.PREPARE_STOP;
+        })
+        .initialState(State.RED)
+        // .endStates(...) is optional and defaults to empty set
+        .build();
+    ```
+  </TabItem>
+  <TabItem label="Mealy Builder (Set / Varargs)">
+    ```java
+    var turnstile = FiniteStateMachine.<State, Action, Response>mealyMachineBuilder()
+        .states(State.LOCKED, State.UNLOCKED)
+        .inputAlphabet(Action.INSERT_COIN, Action.PUSH_BAR)
+        .outputAlphabet(Response.UNLOCK_GATE, Response.PASS_ALLOWED, Response.ALARM, Response.ALREADY_UNLOCKED)
+        .transitionFunction((state, action) -> switch (state) {
+            case LOCKED -> (action == Action.INSERT_COIN) ? State.UNLOCKED : State.LOCKED;
+            case UNLOCKED -> (action == Action.PUSH_BAR) ? State.LOCKED : State.UNLOCKED;
+        })
+        .outputFunction((state, action) -> switch (state) {
+            case LOCKED -> (action == Action.INSERT_COIN) ? Response.UNLOCK_GATE : Response.ALARM;
+            case UNLOCKED -> (action == Action.INSERT_COIN) ? Response.ALREADY_UNLOCKED : Response.PASS_ALLOWED;
+        })
+        .endStates(State.LOCKED)
+        .initialState(State.LOCKED)
+        .build();
+    ```
+  </TabItem>
+  <TabItem label="Declarative Mappings (DSL)">
+    ```java
+    import static org.quurz.automata.OutputMapping.from;
+    import static org.quurz.automata.BiOutputMapping.from;
+
+    var turnstile = FiniteStateMachine.<State, Action, Response>mealyMachineBuilder()
+        .states(State.LOCKED, State.UNLOCKED)
+        .inputAlphabet(Action.INSERT_COIN, Action.PUSH_BAR)
+        .outputAlphabet(Response.UNLOCK_GATE, Response.PASS_ALLOWED, Response.ALARM, Response.ALREADY_UNLOCKED)
+        .transitionFunction(
+            BiOutputMapping.from(State.LOCKED,   Action.INSERT_COIN).goTo(State.UNLOCKED),
+            BiOutputMapping.from(State.LOCKED,   Action.PUSH_BAR).goTo(State.LOCKED),
+            BiOutputMapping.from(State.UNLOCKED, Action.PUSH_BAR).goTo(State.LOCKED),
+            BiOutputMapping.from(State.UNLOCKED, Action.INSERT_COIN).goTo(State.UNLOCKED)
+        )
+        .outputFunction(
+            BiOutputMapping.from(State.LOCKED,   Action.INSERT_COIN).goTo(Response.UNLOCK_GATE),
+            BiOutputMapping.from(State.LOCKED,   Action.PUSH_BAR).goTo(Response.ALARM),
+            BiOutputMapping.from(State.UNLOCKED, Action.PUSH_BAR).goTo(Response.PASS_ALLOWED),
+            BiOutputMapping.from(State.UNLOCKED, Action.INSERT_COIN).goTo(Response.ALREADY_UNLOCKED)
+        )
+        .endStates(State.LOCKED)
+        .initialState(State.LOCKED)
+        .build();
+    ```
+  </TabItem>
+</Tabs>
+
+---
+
+## 5. Registering State Transition Listeners
 
 You can attach event listeners to monitor all state changes reactively:
 
@@ -136,7 +213,7 @@ fsm.registerStateTransitionListener(event -> {
 
 ---
 
-## 5. Thread Safety & Concurrency
+## 6. Thread Safety & Concurrency
 
 `FiniteStateMachine` is thread-safe and designed for concurrent multi-threaded environments:
 
@@ -150,7 +227,7 @@ All state transitions, output evaluations, and listener dispatches happen atomic
 
 ---
 
-## 6. Defensive Copies & Introspection
+## 7. Defensive Copies & Introspection
 
 All getter methods provide safe defensive copies to prevent outside mutation:
 
