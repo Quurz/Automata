@@ -23,6 +23,7 @@ dependencies {
 description = "Foomp-Automata"
 
 java {
-    // Zusätzlich zum normalen JAR auch ein Javadoc-JAR erstellen
+    // Zusätzlich zum normalen JAR auch ein Javadoc- und Sources-JAR erstellen
     withJavadocJar()
+    withSourcesJar()
 }
