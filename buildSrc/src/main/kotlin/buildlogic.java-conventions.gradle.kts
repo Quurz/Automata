@@ -36,7 +36,7 @@ repositories {
 
 // Projektweite Metadaten
 group = "org.quurz.foomp"
-version = providers.gradleProperty("version").orElse("0.1.0-SNAPSHOT").get()
+version = providers.gradleProperty("version").orElse("1.0.0").get()
 
 // Java-Version festlegen (hier Java 25)
 java.sourceCompatibility = JavaVersion.VERSION_25
