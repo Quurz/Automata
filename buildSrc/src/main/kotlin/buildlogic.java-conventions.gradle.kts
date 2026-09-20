@@ -35,7 +35,7 @@ repositories {
 }
 
 // Projektweite Metadaten
-group = "org.quurz.foomp"
+group = "org.quurz"
 version = "0.1.0-SNAPSHOT"
 
 // Java-Version festlegen (hier Java 25)

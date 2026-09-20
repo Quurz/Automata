@@ -9,7 +9,7 @@
         </encoder>
     </appender>
 
-    <logger name="org.quurz.foomp"
+    <logger name="org.quurz"
             level="ALL"
             additivity="false">
         <appender-ref ref="STDOUT" />
