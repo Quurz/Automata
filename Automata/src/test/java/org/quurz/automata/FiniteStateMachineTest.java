@@ -7,8 +7,8 @@ import org.junit.jupiter.api.DisplayNameGenerator;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.quurz.automata.localisation.AutomataMessages;
-import org.quurz.foomp.base.functions.Fun;
-import org.quurz.foomp.base.functions.Fun2;
+import org.quurz.foomp.base.core.Fun;
+import org.quurz.foomp.base.core.Fun2;
 import org.slf4j.Logger;
 
 import java.util.Set;

@@ -69,3 +69,12 @@ Fun<State, Display> outputFunction = combine(
 
 Display display = outputFunction.apply(State.RED); // Display.STOP
 ```
+
+---
+
+## See Also
+
+* [Guide: Declarative Outputs with `OutputMapping`](/guides/automata/outputmapping/)
+* [Guide: Defining Transitions & Mealy Outputs with `BiOutputMapping`](/guides/automata/bioutputmapping/)
+* [`BiOutputMapping` Reference](/reference/automata/bioutputmapping/)
+* [`FiniteStateMachine` Reference](/reference/automata/finitestatemachine/)

@@ -247,5 +247,7 @@ State initial = fsm.getInitialState();
 
 * [`FiniteStateMachine` Reference](/reference/automata/finitestatemachine/)
 * [Guide: Generic StateMachine Interface](/guides/automata/statemachine/)
+* [Guide: Declarative Outputs with `OutputMapping`](/guides/automata/outputmapping/)
+* [Guide: Defining Transitions & Mealy Outputs with `BiOutputMapping`](/guides/automata/bioutputmapping/)
 * [Guide: Reactive Event Monitoring](/guides/automata/statetransitioneventlistener/)
 * [Guide: Standardized Messaging](/guides/automata/localisation/automatamessages/)

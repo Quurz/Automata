@@ -35,8 +35,8 @@ repositories {
 }
 
 // Projektweite Metadaten
-group = "org.quurz"
-version = "0.1.0-SNAPSHOT"
+group = "org.quurz.foomp"
+version = providers.gradleProperty("version").orElse("0.1.0-SNAPSHOT").get()
 
 // Java-Version festlegen (hier Java 25)
 java.sourceCompatibility = JavaVersion.VERSION_25
@@ -60,7 +60,7 @@ tasks.register<Copy>("assembleDocsForStarlight") {
     // Wir gehen davon aus, dass die Astro-Seite im Ordner 'docs' liegt.
     // Falls der Ordner anders heißt, passen wir das an.
     val targetDir = project.rootProject.file("docs/public/api")
-    
+
     // In buildlogic.java-conventions.gradle.kts bezieht sich 'project' auf das Modul,
     // das dieses Plugin nutzt. Wir müssen also über rootProject auf alle Submodule zugreifen.
     project.rootProject.subprojects.forEach { sub ->
@@ -72,9 +72,9 @@ tasks.register<Copy>("assembleDocsForStarlight") {
             }
         }
     }
-    
+
     into(targetDir)
-    
+
     doFirst {
         if (!targetDir.exists()) {
             targetDir.mkdirs()
@@ -155,8 +155,20 @@ tasks.withType<JacocoReport>().configureEach {
 
 // Grundeinstellung für das Veröffentlichen von Maven-Artefakten
 publishing {
-    publications.create<MavenPublication>("maven") {
-        from(components["java"])
+    publications {
+        create<MavenPublication>("maven") {
+            from(components["java"])
+        }
+    }
+    repositories {
+        maven {
+            name = "GitHubPackages"
+            url = uri("https://maven.pkg.github.com/Quurz/Automata")
+            credentials {
+                username = project.findProperty("gpr.user") as String? ?: System.getenv("GITHUB_ACTOR")
+                password = project.findProperty("gpr.key") as String? ?: System.getenv("GITHUB_TOKEN")
+            }
+        }
     }
 }
 

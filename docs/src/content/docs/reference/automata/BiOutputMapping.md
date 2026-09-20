@@ -74,3 +74,12 @@ Fun2<State, Action, Response> mealyOutputFunction = biCombine(
 
 Response response = mealyOutputFunction.apply(State.LOCKED, Action.INSERT_COIN); // Response.UNLOCK_GATE
 ```
+
+---
+
+## See Also
+
+* [Guide: Defining Transitions & Mealy Outputs with `BiOutputMapping`](/guides/automata/bioutputmapping/)
+* [Guide: Declarative Outputs with `OutputMapping`](/guides/automata/outputmapping/)
+* [`OutputMapping` Reference](/reference/automata/outputmapping/)
+* [`FiniteStateMachine` Reference](/reference/automata/finitestatemachine/)

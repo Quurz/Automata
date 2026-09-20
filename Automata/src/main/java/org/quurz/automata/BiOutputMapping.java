@@ -1,7 +1,7 @@
 package org.quurz.automata;
 
 import org.checkerframework.checker.nullness.qual.NonNull;
-import org.quurz.foomp.base.functions.Fun2;
+import org.quurz.foomp.base.core.Fun2;
 
 import java.util.Arrays;
 import java.util.Map;

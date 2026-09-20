@@ -2,10 +2,10 @@
 package org.quurz.automata;
 
 import org.checkerframework.checker.nullness.qual.NonNull;
-import org.quurz.foomp.base.functions.Fun;
-import org.quurz.foomp.base.functions.Fun2;
-import org.quurz.foomp.base.types.Mutable;
-import org.quurz.foomp.base.types.ThreadSafe;
+import org.quurz.foomp.base.core.Fun;
+import org.quurz.foomp.base.core.Fun2;
+import org.quurz.foomp.base.core.Mutable;
+import org.quurz.foomp.base.core.ThreadSafe;
 
 import java.util.HashSet;
 import java.util.Objects;
