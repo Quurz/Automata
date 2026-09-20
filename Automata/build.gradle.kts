@@ -9,7 +9,7 @@ plugins {
 
 dependencies {
     // Abhängigkeit zum Basis-Modul von Foomp
-    api("org.quurz.foomp:base:0.1.0-SNAPSHOT")
+    api("org.quurz.foomp:base:1.0.1")
 
     // Nutzung des Version Catalogs (libs.versions.toml) für externe Libraries
     api(libs.org.apache.commons.commons.lang3)

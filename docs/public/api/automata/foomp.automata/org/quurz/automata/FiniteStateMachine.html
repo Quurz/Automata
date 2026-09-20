@@ -56,6 +56,7 @@ loadScripts(document, 'script');</script>
 <div class="toc-header">Inhalt&nbsp;<input type="text" class="filter-input" disabled placeholder="Inhalt filtern (&quot;.&quot; eingeben)" aria-label="Inhaltsverzeichnis filtern" autocomplete="off" spellcheck="false"><input type="reset" class="reset-filter" disabled tabindex="-1" value="Zurücksetzen"></div>
 <ol class="toc-list" tabindex="-1">
 <li><a href="#" tabindex="0">Beschreibung</a></li>
+<li><a href="#nested-class-summary" tabindex="0">Verschachtelte Klassen - Übersicht</a></li>
 <li><a href="#field-summary" tabindex="0">Feldübersicht</a></li>
 <li><a href="#method-summary" tabindex="0">Methodenübersicht</a></li>
 <li><a href="#field-detail" tabindex="0">Felddetails</a>
@@ -65,17 +66,17 @@ loadScripts(document, 'script');</script>
 </li>
 <li><a href="#method-detail" tabindex="0">Methodendetails</a>
 <ol class="toc-list">
-<li><a href="#mooreMachine(java.util.Set,java.util.Set,java.util.Set,org.quurz.foomp.base.functions.Fun2,org.quurz.foomp.base.functions.Fun,java.util.Set,S)" tabindex="0">mooreMachine(Set, Set, Set, Fun2, Fun, Set, S)</a></li>
-<li><a href="#mealyMachine(java.util.Set,java.util.Set,java.util.Set,org.quurz.foomp.base.functions.Fun2,org.quurz.foomp.base.functions.Fun2,java.util.Set,S)" tabindex="0">mealyMachine(Set, Set, Set, Fun2, Fun2, Set, S)</a></li>
+<li><a href="#mooreMachineBuilder()" tabindex="0">mooreMachineBuilder()</a></li>
+<li><a href="#mealyMachineBuilder()" tabindex="0">mealyMachineBuilder()</a></li>
+<li><a href="#mooreMachine(java.util.Set,java.util.Set,java.util.Set,org.quurz.foomp.base.core.Fun2,org.quurz.foomp.base.core.Fun,java.util.Set,S)" tabindex="0">mooreMachine(Set, Set, Set, Fun2, Fun, Set, S)</a></li>
+<li><a href="#mealyMachine(java.util.Set,java.util.Set,java.util.Set,org.quurz.foomp.base.core.Fun2,org.quurz.foomp.base.core.Fun2,java.util.Set,S)" tabindex="0">mealyMachine(Set, Set, Set, Fun2, Fun2, Set, S)</a></li>
 <li><a href="#getStates()" tabindex="0">getStates()</a></li>
 <li><a href="#getInputAlphabet()" tabindex="0">getInputAlphabet()</a></li>
 <li><a href="#getOutputAlphabet()" tabindex="0">getOutputAlphabet()</a></li>
-<li><a href="#getTransitionFunction()" tabindex="0">getTransitionFunction()</a></li>
-<li><a href="#getOutputFunction()" tabindex="0">getOutputFunction()</a></li>
 <li><a href="#getEndStates()" tabindex="0">getEndStates()</a></li>
 <li><a href="#getInitialState()" tabindex="0">getInitialState()</a></li>
-<li><a href="#registerStateTransitionListener(org.quurz.automata.StateTransitionEventListener)" tabindex="0">registerStateTransitionListener(StateTransitionListener)</a></li>
-<li><a href="#unregisterStateTransitionListener(org.quurz.automata.StateTransitionEventListener)" tabindex="0">unregisterStateTransitionListener(StateTransitionListener)</a></li>
+<li><a href="#registerStateTransitionListener(org.quurz.automata.StateTransitionEventListener)" tabindex="0">registerStateTransitionListener(StateTransitionEventListener)</a></li>
+<li><a href="#unregisterStateTransitionListener(org.quurz.automata.StateTransitionEventListener)" tabindex="0">unregisterStateTransitionListener(StateTransitionEventListener)</a></li>
 <li><a href="#read(IA)" tabindex="0">read(IA)</a></li>
 <li><a href="#reset()" tabindex="0">reset()</a></li>
 <li><a href="#isInEndState()" tabindex="0">isInEndState()</a></li>
@@ -122,8 +123,8 @@ implements <a href="StateMachine.html" title="Schnittstelle in org.quurz.automat
         concurrent use.
     </p>
     <p>
-        Instances should be created using the static factory methods <a href="#mooreMachine(java.util.Set,java.util.Set,java.util.Set,org.quurz.foomp.base.functions.Fun2,org.quurz.foomp.base.functions.Fun,java.util.Set,S)"><code>mooreMachine(Set, Set, Set, Fun2, Fun, Set, S)</code></a>
-        or <a href="#mealyMachine(java.util.Set,java.util.Set,java.util.Set,org.quurz.foomp.base.functions.Fun2,org.quurz.foomp.base.functions.Fun2,java.util.Set,S)"><code>mealyMachine(Set, Set, Set, Fun2, Fun2, Set, S)</code></a> rather than the constructor directly.
+        Instances should be created using the static factory methods <a href="#mooreMachine(java.util.Set,java.util.Set,java.util.Set,org.quurz.foomp.base.core.Fun2,org.quurz.foomp.base.core.Fun,java.util.Set,S)"><code>mooreMachine(Set, Set, Set, Fun2, Fun, Set, S)</code></a>
+        or <a href="#mealyMachine(java.util.Set,java.util.Set,java.util.Set,org.quurz.foomp.base.core.Fun2,org.quurz.foomp.base.core.Fun2,java.util.Set,S)"><code>mealyMachine(Set, Set, Set, Fun2, Fun2, Set, S)</code></a> rather than the constructor directly.
     </p>
 </div></div>
 <dl class="notes">
@@ -134,6 +135,27 @@ implements <a href="StateMachine.html" title="Schnittstelle in org.quurz.automat
 </section>
 <section class="summary">
 <ul class="summary-list">
+<!-- ======== NESTED CLASS SUMMARY ======== -->
+<li>
+<section class="nested-class-summary" id="nested-class-summary">
+<h2>Verschachtelte Klassen - Übersicht</h2>
+<div class="caption"><span>Verschachtelte Klassen</span></div>
+<div class="summary-table three-column-summary">
+<div class="table-header col-first">Modifikator und Typ</div>
+<div class="table-header col-second">Klasse</div>
+<div class="table-header col-last">Beschreibung</div>
+<div class="col-first even-row-color"><code>static interface&nbsp;</code></div>
+<div class="col-second even-row-color"><code><a href="FiniteStateMachine.FiniteStateMachineBuilder.html" class="type-name-link" title="Schnittstelle in org.quurz.automata">FiniteStateMachine.FiniteStateMachineBuilder</a>&lt;<a href="FiniteStateMachine.FiniteStateMachineBuilder.html#type-param-S" title="Typparameter in FiniteStateMachine.FiniteStateMachineBuilder">S</a>, <a href="FiniteStateMachine.FiniteStateMachineBuilder.html#type-param-IA" title="Typparameter in FiniteStateMachine.FiniteStateMachineBuilder">IA</a>, <a href="FiniteStateMachine.FiniteStateMachineBuilder.html#type-param-OA" title="Typparameter in FiniteStateMachine.FiniteStateMachineBuilder">OA</a>, <a href="FiniteStateMachine.FiniteStateMachineBuilder.html#type-param-B" title="Typparameter in FiniteStateMachine.FiniteStateMachineBuilder">B</a> extends <a href="FiniteStateMachine.FiniteStateMachineBuilder.html" title="Schnittstelle in org.quurz.automata">FiniteStateMachine.FiniteStateMachineBuilder</a>&lt;<a href="FiniteStateMachine.FiniteStateMachineBuilder.html#type-param-S" title="Typparameter in FiniteStateMachine.FiniteStateMachineBuilder">S</a>,<wbr><a href="FiniteStateMachine.FiniteStateMachineBuilder.html#type-param-IA" title="Typparameter in FiniteStateMachine.FiniteStateMachineBuilder">IA</a>,<wbr><a href="FiniteStateMachine.FiniteStateMachineBuilder.html#type-param-OA" title="Typparameter in FiniteStateMachine.FiniteStateMachineBuilder">OA</a>,<wbr><a href="FiniteStateMachine.FiniteStateMachineBuilder.html#type-param-B" title="Typparameter in FiniteStateMachine.FiniteStateMachineBuilder">B</a>&gt;&gt;</code></div>
+<div class="col-last even-row-color"></div>
+<div class="col-first odd-row-color"><code>static interface&nbsp;</code></div>
+<div class="col-second odd-row-color"><code><a href="FiniteStateMachine.MealyMachineBuilder.html" class="type-name-link" title="Schnittstelle in org.quurz.automata">FiniteStateMachine.MealyMachineBuilder</a>&lt;<a href="FiniteStateMachine.MealyMachineBuilder.html#type-param-S" title="Typparameter in FiniteStateMachine.MealyMachineBuilder">S</a>,<wbr><a href="FiniteStateMachine.MealyMachineBuilder.html#type-param-IA" title="Typparameter in FiniteStateMachine.MealyMachineBuilder">IA</a>,<wbr><a href="FiniteStateMachine.MealyMachineBuilder.html#type-param-OA" title="Typparameter in FiniteStateMachine.MealyMachineBuilder">OA</a>&gt;</code></div>
+<div class="col-last odd-row-color"></div>
+<div class="col-first even-row-color"><code>static interface&nbsp;</code></div>
+<div class="col-second even-row-color"><code><a href="FiniteStateMachine.MooreMachineBuilder.html" class="type-name-link" title="Schnittstelle in org.quurz.automata">FiniteStateMachine.MooreMachineBuilder</a>&lt;<a href="FiniteStateMachine.MooreMachineBuilder.html#type-param-S" title="Typparameter in FiniteStateMachine.MooreMachineBuilder">S</a>,<wbr><a href="FiniteStateMachine.MooreMachineBuilder.html#type-param-IA" title="Typparameter in FiniteStateMachine.MooreMachineBuilder">IA</a>,<wbr><a href="FiniteStateMachine.MooreMachineBuilder.html#type-param-OA" title="Typparameter in FiniteStateMachine.MooreMachineBuilder">OA</a>&gt;</code></div>
+<div class="col-last even-row-color"></div>
+</div>
+</section>
+</li>
 <!-- =========== FIELD SUMMARY =========== -->
 <li>
 <section class="field-summary" id="field-summary">
@@ -172,47 +194,47 @@ implements <a href="StateMachine.html" title="Schnittstelle in org.quurz.automat
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>@NonNull <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Set.html" title="Klasse oder Schnittstelle in java.util" class="external-link">Set</a><wbr>&lt;<a href="#type-param-OA" title="Typparameter in FiniteStateMachine">OA</a>&gt;</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getOutputAlphabet()" class="member-name-link">getOutputAlphabet</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"></div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>@NonNull org.quurz.foomp.base.functions.Fun<wbr>&lt;<a href="#type-param-S" title="Typparameter in FiniteStateMachine">S</a>, org.quurz.foomp.base.functions.Fun&lt;<a href="#type-param-IA" title="Typparameter in FiniteStateMachine">IA</a>,<wbr><a href="#type-param-OA" title="Typparameter in FiniteStateMachine">OA</a>&gt;&gt;</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getOutputFunction()" class="member-name-link">getOutputFunction</a>()</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"></div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>@NonNull <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Set.html" title="Klasse oder Schnittstelle in java.util" class="external-link">Set</a><wbr>&lt;<a href="#type-param-S" title="Typparameter in FiniteStateMachine">S</a>&gt;</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getStates()" class="member-name-link">getStates</a>()</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"></div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>@NonNull org.quurz.foomp.base.functions.Fun2<wbr>&lt;<a href="#type-param-S" title="Typparameter in FiniteStateMachine">S</a>,<wbr><a href="#type-param-IA" title="Typparameter in FiniteStateMachine">IA</a>,<wbr><a href="#type-param-S" title="Typparameter in FiniteStateMachine">S</a>&gt;</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getTransitionFunction()" class="member-name-link">getTransitionFunction</a>()</code></div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>@NonNull <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Set.html" title="Klasse oder Schnittstelle in java.util" class="external-link">Set</a><wbr>&lt;<a href="#type-param-S" title="Typparameter in FiniteStateMachine">S</a>&gt;</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getStates()" class="member-name-link">getStates</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"></div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>boolean</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#isInEndState()" class="member-name-link">isInEndState</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"></div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static &lt;S,<wbr>IA,<wbr>OA&gt;&nbsp;<a href="FiniteStateMachine.html" title="Klasse in org.quurz.automata">FiniteStateMachine</a><wbr>&lt;S,<wbr>IA,<wbr>OA&gt;</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#mealyMachine(java.util.Set,java.util.Set,java.util.Set,org.quurz.foomp.base.functions.Fun2,org.quurz.foomp.base.functions.Fun2,java.util.Set,S)" class="member-name-link">mealyMachine</a><wbr>(@NonNull <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Set.html" title="Klasse oder Schnittstelle in java.util" class="external-link">Set</a>&lt;S&gt;&nbsp;states,
+<div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#mealyMachine(java.util.Set,java.util.Set,java.util.Set,org.quurz.foomp.base.core.Fun2,org.quurz.foomp.base.core.Fun2,java.util.Set,S)" class="member-name-link">mealyMachine</a><wbr>(@NonNull <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Set.html" title="Klasse oder Schnittstelle in java.util" class="external-link">Set</a>&lt;S&gt;&nbsp;states,
  @NonNull <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Set.html" title="Klasse oder Schnittstelle in java.util" class="external-link">Set</a>&lt;IA&gt;&nbsp;inputAlphabet,
  @NonNull <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Set.html" title="Klasse oder Schnittstelle in java.util" class="external-link">Set</a>&lt;OA&gt;&nbsp;outputAlphabet,
- @NonNull org.quurz.foomp.base.functions.Fun2&lt;S,<wbr>IA,<wbr>S&gt;&nbsp;transitionFunction,
- @NonNull org.quurz.foomp.base.functions.Fun2&lt;S,<wbr>IA,<wbr>OA&gt;&nbsp;outputFunction,
+ @NonNull org.quurz.foomp.base.core.Fun2&lt;S,<wbr>IA,<wbr>S&gt;&nbsp;transitionFunction,
+ @NonNull org.quurz.foomp.base.core.Fun2&lt;S,<wbr>IA,<wbr>OA&gt;&nbsp;outputFunction,
  @NonNull <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Set.html" title="Klasse oder Schnittstelle in java.util" class="external-link">Set</a>&lt;S&gt;&nbsp;endStates,
  @NonNull S&nbsp;initialState)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"></div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static &lt;S,<wbr>IA,<wbr>OA&gt;&nbsp;<a href="FiniteStateMachine.html" title="Klasse in org.quurz.automata">FiniteStateMachine</a><wbr>&lt;S,<wbr>IA,<wbr>OA&gt;</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#mooreMachine(java.util.Set,java.util.Set,java.util.Set,org.quurz.foomp.base.functions.Fun2,org.quurz.foomp.base.functions.Fun,java.util.Set,S)" class="member-name-link">mooreMachine</a><wbr>(@NonNull <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Set.html" title="Klasse oder Schnittstelle in java.util" class="external-link">Set</a>&lt;S&gt;&nbsp;states,
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static &lt;S,<wbr>IA,<wbr>OA&gt;&nbsp;<a href="FiniteStateMachine.MealyMachineBuilder.html" title="Schnittstelle in org.quurz.automata">FiniteStateMachine.MealyMachineBuilder</a><wbr>&lt;S,<wbr>IA,<wbr>OA&gt;</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#mealyMachineBuilder()" class="member-name-link">mealyMachineBuilder</a>()</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"></div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static &lt;S,<wbr>IA,<wbr>OA&gt;&nbsp;<a href="FiniteStateMachine.html" title="Klasse in org.quurz.automata">FiniteStateMachine</a><wbr>&lt;S,<wbr>IA,<wbr>OA&gt;</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#mooreMachine(java.util.Set,java.util.Set,java.util.Set,org.quurz.foomp.base.core.Fun2,org.quurz.foomp.base.core.Fun,java.util.Set,S)" class="member-name-link">mooreMachine</a><wbr>(@NonNull <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Set.html" title="Klasse oder Schnittstelle in java.util" class="external-link">Set</a>&lt;S&gt;&nbsp;states,
  @NonNull <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Set.html" title="Klasse oder Schnittstelle in java.util" class="external-link">Set</a>&lt;IA&gt;&nbsp;inputAlphabet,
  @NonNull <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Set.html" title="Klasse oder Schnittstelle in java.util" class="external-link">Set</a>&lt;OA&gt;&nbsp;outputAlphabet,
- @NonNull org.quurz.foomp.base.functions.Fun2&lt;S,<wbr>IA,<wbr>S&gt;&nbsp;transitionFunction,
- @NonNull org.quurz.foomp.base.functions.Fun&lt;S,<wbr>OA&gt;&nbsp;outputFunction,
+ @NonNull org.quurz.foomp.base.core.Fun2&lt;S,<wbr>IA,<wbr>S&gt;&nbsp;transitionFunction,
+ @NonNull org.quurz.foomp.base.core.Fun&lt;S,<wbr>OA&gt;&nbsp;outputFunction,
  @NonNull <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Set.html" title="Klasse oder Schnittstelle in java.util" class="external-link">Set</a>&lt;S&gt;&nbsp;endStates,
  @NonNull S&nbsp;initialState)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"></div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static &lt;S,<wbr>IA,<wbr>OA&gt;&nbsp;<a href="FiniteStateMachine.MooreMachineBuilder.html" title="Schnittstelle in org.quurz.automata">FiniteStateMachine.MooreMachineBuilder</a><wbr>&lt;S,<wbr>IA,<wbr>OA&gt;</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#mooreMachineBuilder()" class="member-name-link">mooreMachineBuilder</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"></div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>@NonNull <a href="#type-param-OA" title="Typparameter in FiniteStateMachine">OA</a></code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#read(IA)" class="member-name-link">read</a><wbr>(@NonNull <a href="#type-param-IA" title="Typparameter in FiniteStateMachine">IA</a>&nbsp;input)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"></div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#registerStateTransitionListener(org.quurz.automata.StateTransitionEventListener)" class="member-name-link">registerStateTransitionListener</a><wbr>(@NonNull <a href="StateTransitionListener.html" title="Schnittstelle in org.quurz.automata">StateTransitionListener</a>&lt;<a href="#type-param-S" title="Typparameter in FiniteStateMachine">S</a>&gt;&nbsp;listener)</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#registerStateTransitionListener(org.quurz.automata.StateTransitionEventListener)" class="member-name-link">registerStateTransitionListener</a><wbr>(@NonNull <a href="StateTransitionEventListener.html" title="Schnittstelle in org.quurz.automata">StateTransitionEventListener</a>&lt;<a href="#type-param-S" title="Typparameter in FiniteStateMachine">S</a>&gt;&nbsp;listener)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"></div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>@NonNull <a href="FiniteStateMachine.html" title="Klasse in org.quurz.automata">FiniteStateMachine</a><wbr>&lt;<a href="#type-param-S" title="Typparameter in FiniteStateMachine">S</a>,<wbr><a href="#type-param-IA" title="Typparameter in FiniteStateMachine">IA</a>,<wbr><a href="#type-param-OA" title="Typparameter in FiniteStateMachine">OA</a>&gt;</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#reset()" class="member-name-link">reset</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"></div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#unregisterStateTransitionListener(org.quurz.automata.StateTransitionEventListener)" class="member-name-link">unregisterStateTransitionListener</a><wbr>(@NonNull <a href="StateTransitionListener.html" title="Schnittstelle in org.quurz.automata">StateTransitionListener</a>&lt;<a href="#type-param-S" title="Typparameter in FiniteStateMachine">S</a>&gt;&nbsp;listener)</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#unregisterStateTransitionListener(org.quurz.automata.StateTransitionEventListener)" class="member-name-link">unregisterStateTransitionListener</a><wbr>(@NonNull <a href="StateTransitionEventListener.html" title="Schnittstelle in org.quurz.automata">StateTransitionEventListener</a>&lt;<a href="#type-param-S" title="Typparameter in FiniteStateMachine">S</a>&gt;&nbsp;listener)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"></div>
 </div>
 </div>
@@ -248,14 +270,62 @@ implements <a href="StateMachine.html" title="Schnittstelle in org.quurz.automat
 <h2>Methodendetails</h2>
 <ul class="member-list">
 <li>
-<section class="detail" id="mooreMachine(java.util.Set,java.util.Set,java.util.Set,org.quurz.foomp.base.functions.Fun2,org.quurz.foomp.base.functions.Fun,java.util.Set,S)">
-<h3 id="mooreMachine(java.util.Set,java.util.Set,java.util.Set,org.quurz.foomp.base.functions.Fun2,org.quurz.foomp.base.functions.Fun,java.util.Set,java.lang.Object)">mooreMachine</h3>
+<section class="detail" id="mooreMachineBuilder()">
+<h3>mooreMachineBuilder</h3>
+<div class="horizontal-scroll">
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="type-parameters">&lt;S,<wbr>IA,<wbr>OA&gt;</span>
+<span class="return-type"><a href="FiniteStateMachine.MooreMachineBuilder.html" title="Schnittstelle in org.quurz.automata">FiniteStateMachine.MooreMachineBuilder</a>&lt;S,<wbr>IA,<wbr>OA&gt;</span>&nbsp;<span class="element-name">mooreMachineBuilder</span>()</div>
+<div class="block"><div>
+    <p>
+        Creates a new fluent builder for configuring a Moore machine.
+    </p>
+</div></div>
+<dl class="notes">
+<dt>Typparameter:</dt>
+<dd><span id="mooreMachineBuilder()-type-param-S"><code>S</code> - the type of states</span></dd>
+<dd><span id="mooreMachineBuilder()-type-param-IA"><code>IA</code> - the type of input symbols (Input Alphabet)</span></dd>
+<dd><span id="mooreMachineBuilder()-type-param-OA"><code>OA</code> - the type of output symbols (Output Alphabet)</span></dd>
+<dt>Gibt zurück:</dt>
+<dd>a new <a href="FiniteStateMachine.MooreMachineBuilder.html" title="Schnittstelle in org.quurz.automata"><code>FiniteStateMachine.MooreMachineBuilder</code></a> instance</dd>
+<dt>Seit:</dt>
+<dd>1.0.0</dd>
+</dl>
+</div>
+</section>
+</li>
+<li>
+<section class="detail" id="mealyMachineBuilder()">
+<h3>mealyMachineBuilder</h3>
+<div class="horizontal-scroll">
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="type-parameters">&lt;S,<wbr>IA,<wbr>OA&gt;</span>
+<span class="return-type"><a href="FiniteStateMachine.MealyMachineBuilder.html" title="Schnittstelle in org.quurz.automata">FiniteStateMachine.MealyMachineBuilder</a>&lt;S,<wbr>IA,<wbr>OA&gt;</span>&nbsp;<span class="element-name">mealyMachineBuilder</span>()</div>
+<div class="block"><div>
+    <p>
+        Creates a new fluent builder for configuring a Mealy machine.
+    </p>
+</div></div>
+<dl class="notes">
+<dt>Typparameter:</dt>
+<dd><span id="mealyMachineBuilder()-type-param-S"><code>S</code> - the type of states</span></dd>
+<dd><span id="mealyMachineBuilder()-type-param-IA"><code>IA</code> - the type of input symbols (Input Alphabet)</span></dd>
+<dd><span id="mealyMachineBuilder()-type-param-OA"><code>OA</code> - the type of output symbols (Output Alphabet)</span></dd>
+<dt>Gibt zurück:</dt>
+<dd>a new <a href="FiniteStateMachine.MealyMachineBuilder.html" title="Schnittstelle in org.quurz.automata"><code>FiniteStateMachine.MealyMachineBuilder</code></a> instance</dd>
+<dt>Seit:</dt>
+<dd>1.0.0</dd>
+</dl>
+</div>
+</section>
+</li>
+<li>
+<section class="detail" id="mooreMachine(java.util.Set,java.util.Set,java.util.Set,org.quurz.foomp.base.core.Fun2,org.quurz.foomp.base.core.Fun,java.util.Set,S)">
+<h3 id="mooreMachine(java.util.Set,java.util.Set,java.util.Set,org.quurz.foomp.base.core.Fun2,org.quurz.foomp.base.core.Fun,java.util.Set,java.lang.Object)">mooreMachine</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="type-parameters">&lt;S,<wbr>IA,<wbr>OA&gt;</span>&nbsp;<span class="return-type"><a href="FiniteStateMachine.html" title="Klasse in org.quurz.automata">FiniteStateMachine</a>&lt;S,<wbr>IA,<wbr>OA&gt;</span>&nbsp;<span class="element-name">mooreMachine</span><wbr><span class="parameters">(@NonNull <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Set.html" title="Klasse oder Schnittstelle in java.util" class="external-link">Set</a>&lt;S&gt;&nbsp;states,
  @NonNull <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Set.html" title="Klasse oder Schnittstelle in java.util" class="external-link">Set</a>&lt;IA&gt;&nbsp;inputAlphabet,
  @NonNull <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Set.html" title="Klasse oder Schnittstelle in java.util" class="external-link">Set</a>&lt;OA&gt;&nbsp;outputAlphabet,
- @NonNull org.quurz.foomp.base.functions.Fun2&lt;S,<wbr>IA,<wbr>S&gt;&nbsp;transitionFunction,
- @NonNull org.quurz.foomp.base.functions.Fun&lt;S,<wbr>OA&gt;&nbsp;outputFunction,
+ @NonNull org.quurz.foomp.base.core.Fun2&lt;S,<wbr>IA,<wbr>S&gt;&nbsp;transitionFunction,
+ @NonNull org.quurz.foomp.base.core.Fun&lt;S,<wbr>OA&gt;&nbsp;outputFunction,
  @NonNull <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Set.html" title="Klasse oder Schnittstelle in java.util" class="external-link">Set</a>&lt;S&gt;&nbsp;endStates,
  @NonNull S&nbsp;initialState)</span></div>
 <div class="block"><div>
@@ -270,9 +340,9 @@ implements <a href="StateMachine.html" title="Schnittstelle in org.quurz.automat
 </div></div>
 <dl class="notes">
 <dt>Typparameter:</dt>
-<dd><span id="mooreMachine(java.util.Set,java.util.Set,java.util.Set,org.quurz.foomp.base.functions.Fun2,org.quurz.foomp.base.functions.Fun,java.util.Set,S)-type-param-S"><code>S</code> - the type of states</span></dd>
-<dd><span id="mooreMachine(java.util.Set,java.util.Set,java.util.Set,org.quurz.foomp.base.functions.Fun2,org.quurz.foomp.base.functions.Fun,java.util.Set,S)-type-param-IA"><code>IA</code> - the type of input symbols</span></dd>
-<dd><span id="mooreMachine(java.util.Set,java.util.Set,java.util.Set,org.quurz.foomp.base.functions.Fun2,org.quurz.foomp.base.functions.Fun,java.util.Set,S)-type-param-OA"><code>OA</code> - the type of output symbols</span></dd>
+<dd><span id="mooreMachine(java.util.Set,java.util.Set,java.util.Set,org.quurz.foomp.base.core.Fun2,org.quurz.foomp.base.core.Fun,java.util.Set,S)-type-param-S"><code>S</code> - the type of states</span></dd>
+<dd><span id="mooreMachine(java.util.Set,java.util.Set,java.util.Set,org.quurz.foomp.base.core.Fun2,org.quurz.foomp.base.core.Fun,java.util.Set,S)-type-param-IA"><code>IA</code> - the type of input symbols</span></dd>
+<dd><span id="mooreMachine(java.util.Set,java.util.Set,java.util.Set,org.quurz.foomp.base.core.Fun2,org.quurz.foomp.base.core.Fun,java.util.Set,S)-type-param-OA"><code>OA</code> - the type of output symbols</span></dd>
 <dt>Parameter:</dt>
 <dd><code>states</code> - the set of all possible states; must not be <code>null</code> or empty,
                          and must not contain <code>null</code> elements</dd>
@@ -300,14 +370,14 @@ implements <a href="StateMachine.html" title="Schnittstelle in org.quurz.automat
 </section>
 </li>
 <li>
-<section class="detail" id="mealyMachine(java.util.Set,java.util.Set,java.util.Set,org.quurz.foomp.base.functions.Fun2,org.quurz.foomp.base.functions.Fun2,java.util.Set,S)">
-<h3 id="mealyMachine(java.util.Set,java.util.Set,java.util.Set,org.quurz.foomp.base.functions.Fun2,org.quurz.foomp.base.functions.Fun2,java.util.Set,java.lang.Object)">mealyMachine</h3>
+<section class="detail" id="mealyMachine(java.util.Set,java.util.Set,java.util.Set,org.quurz.foomp.base.core.Fun2,org.quurz.foomp.base.core.Fun2,java.util.Set,S)">
+<h3 id="mealyMachine(java.util.Set,java.util.Set,java.util.Set,org.quurz.foomp.base.core.Fun2,org.quurz.foomp.base.core.Fun2,java.util.Set,java.lang.Object)">mealyMachine</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="type-parameters">&lt;S,<wbr>IA,<wbr>OA&gt;</span>&nbsp;<span class="return-type"><a href="FiniteStateMachine.html" title="Klasse in org.quurz.automata">FiniteStateMachine</a>&lt;S,<wbr>IA,<wbr>OA&gt;</span>&nbsp;<span class="element-name">mealyMachine</span><wbr><span class="parameters">(@NonNull <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Set.html" title="Klasse oder Schnittstelle in java.util" class="external-link">Set</a>&lt;S&gt;&nbsp;states,
  @NonNull <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Set.html" title="Klasse oder Schnittstelle in java.util" class="external-link">Set</a>&lt;IA&gt;&nbsp;inputAlphabet,
  @NonNull <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Set.html" title="Klasse oder Schnittstelle in java.util" class="external-link">Set</a>&lt;OA&gt;&nbsp;outputAlphabet,
- @NonNull org.quurz.foomp.base.functions.Fun2&lt;S,<wbr>IA,<wbr>S&gt;&nbsp;transitionFunction,
- @NonNull org.quurz.foomp.base.functions.Fun2&lt;S,<wbr>IA,<wbr>OA&gt;&nbsp;outputFunction,
+ @NonNull org.quurz.foomp.base.core.Fun2&lt;S,<wbr>IA,<wbr>S&gt;&nbsp;transitionFunction,
+ @NonNull org.quurz.foomp.base.core.Fun2&lt;S,<wbr>IA,<wbr>OA&gt;&nbsp;outputFunction,
  @NonNull <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Set.html" title="Klasse oder Schnittstelle in java.util" class="external-link">Set</a>&lt;S&gt;&nbsp;endStates,
  @NonNull S&nbsp;initialState)</span></div>
 <div class="block"><div>
@@ -322,9 +392,9 @@ implements <a href="StateMachine.html" title="Schnittstelle in org.quurz.automat
 </div></div>
 <dl class="notes">
 <dt>Typparameter:</dt>
-<dd><span id="mealyMachine(java.util.Set,java.util.Set,java.util.Set,org.quurz.foomp.base.functions.Fun2,org.quurz.foomp.base.functions.Fun2,java.util.Set,S)-type-param-S"><code>S</code> - the type of states</span></dd>
-<dd><span id="mealyMachine(java.util.Set,java.util.Set,java.util.Set,org.quurz.foomp.base.functions.Fun2,org.quurz.foomp.base.functions.Fun2,java.util.Set,S)-type-param-IA"><code>IA</code> - the type of input symbols</span></dd>
-<dd><span id="mealyMachine(java.util.Set,java.util.Set,java.util.Set,org.quurz.foomp.base.functions.Fun2,org.quurz.foomp.base.functions.Fun2,java.util.Set,S)-type-param-OA"><code>OA</code> - the type of output symbols</span></dd>
+<dd><span id="mealyMachine(java.util.Set,java.util.Set,java.util.Set,org.quurz.foomp.base.core.Fun2,org.quurz.foomp.base.core.Fun2,java.util.Set,S)-type-param-S"><code>S</code> - the type of states</span></dd>
+<dd><span id="mealyMachine(java.util.Set,java.util.Set,java.util.Set,org.quurz.foomp.base.core.Fun2,org.quurz.foomp.base.core.Fun2,java.util.Set,S)-type-param-IA"><code>IA</code> - the type of input symbols</span></dd>
+<dd><span id="mealyMachine(java.util.Set,java.util.Set,java.util.Set,org.quurz.foomp.base.core.Fun2,org.quurz.foomp.base.core.Fun2,java.util.Set,S)-type-param-OA"><code>OA</code> - the type of output symbols</span></dd>
 <dt>Parameter:</dt>
 <dd><code>states</code> - the set of all possible states; must not be <code>null</code> or empty,
                          and must not contain <code>null</code> elements</dd>
@@ -409,44 +479,6 @@ implements <a href="StateMachine.html" title="Schnittstelle in org.quurz.automat
 </section>
 </li>
 <li>
-<section class="detail" id="getTransitionFunction()">
-<h3>getTransitionFunction</h3>
-<div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">@NonNull org.quurz.foomp.base.functions.Fun2&lt;<a href="#type-param-S" title="Typparameter in FiniteStateMachine">S</a>,<wbr><a href="#type-param-IA" title="Typparameter in FiniteStateMachine">IA</a>,<wbr><a href="#type-param-S" title="Typparameter in FiniteStateMachine">S</a>&gt;</span>&nbsp;<span class="element-name">getTransitionFunction</span>()</div>
-<div class="block"><div>
-    <p>
-        Returns the transition function of this state machine.
-    </p>
-</div></div>
-<dl class="notes">
-<dt>Gibt zurück:</dt>
-<dd>the function mapping (state, input) to next state</dd>
-<dt>Seit:</dt>
-<dd>1.0.0</dd>
-</dl>
-</div>
-</section>
-</li>
-<li>
-<section class="detail" id="getOutputFunction()">
-<h3>getOutputFunction</h3>
-<div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">@NonNull org.quurz.foomp.base.functions.Fun&lt;<a href="#type-param-S" title="Typparameter in FiniteStateMachine">S</a>, org.quurz.foomp.base.functions.Fun&lt;<a href="#type-param-IA" title="Typparameter in FiniteStateMachine">IA</a>,<wbr><a href="#type-param-OA" title="Typparameter in FiniteStateMachine">OA</a>&gt;&gt;</span>&nbsp;<span class="element-name">getOutputFunction</span>()</div>
-<div class="block"><div>
-    <p>
-        Returns the curried output function of this state machine.
-    </p>
-</div></div>
-<dl class="notes">
-<dt>Gibt zurück:</dt>
-<dd>the function mapping state and input symbol to an output symbol</dd>
-<dt>Seit:</dt>
-<dd>1.0.0</dd>
-</dl>
-</div>
-</section>
-</li>
-<li>
 <section class="detail" id="getEndStates()">
 <h3>getEndStates</h3>
 <div class="horizontal-scroll">
@@ -488,7 +520,7 @@ implements <a href="StateMachine.html" title="Schnittstelle in org.quurz.automat
 <section class="detail" id="registerStateTransitionListener(org.quurz.automata.StateTransitionEventListener)">
 <h3>registerStateTransitionListener</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">registerStateTransitionListener</span><wbr><span class="parameters">(@NonNull <a href="StateTransitionListener.html" title="Schnittstelle in org.quurz.automata">StateTransitionListener</a>&lt;<a href="#type-param-S" title="Typparameter in FiniteStateMachine">S</a>&gt;&nbsp;listener)</span></div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">registerStateTransitionListener</span><wbr><span class="parameters">(@NonNull <a href="StateTransitionEventListener.html" title="Schnittstelle in org.quurz.automata">StateTransitionEventListener</a>&lt;<a href="#type-param-S" title="Typparameter in FiniteStateMachine">S</a>&gt;&nbsp;listener)</span></div>
 <div class="block"><div>
     <p>
         Registers a listener for receiving state transition events.
@@ -513,7 +545,7 @@ implements <a href="StateMachine.html" title="Schnittstelle in org.quurz.automat
 <section class="detail" id="unregisterStateTransitionListener(org.quurz.automata.StateTransitionEventListener)">
 <h3>unregisterStateTransitionListener</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">unregisterStateTransitionListener</span><wbr><span class="parameters">(@NonNull <a href="StateTransitionListener.html" title="Schnittstelle in org.quurz.automata">StateTransitionListener</a>&lt;<a href="#type-param-S" title="Typparameter in FiniteStateMachine">S</a>&gt;&nbsp;listener)</span></div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">unregisterStateTransitionListener</span><wbr><span class="parameters">(@NonNull <a href="StateTransitionEventListener.html" title="Schnittstelle in org.quurz.automata">StateTransitionEventListener</a>&lt;<a href="#type-param-S" title="Typparameter in FiniteStateMachine">S</a>&gt;&nbsp;listener)</span></div>
 <div class="block"><div>
     <p>
         Unregisters a previously registered state transition listener.

@@ -38,7 +38,7 @@ In theoretical computer science, a deterministic finite state machine with outpu
     Internal state changes and output evaluation are guarded by `java.util.concurrent.locks.ReentrantLock`, ensuring safe concurrent access across worker threads.
   </Card>
   <Card title="Functional Composition" icon="forward-slash">
-    Transition and output functions use `org.quurz.foomp.base.functions.Fun` and `Fun2` from Foomp, allowing seamless lambda expressions and method references.
+    Transition and output functions use `org.quurz.foomp.base.core.Fun` and `Fun2` from Foomp, allowing seamless lambda expressions and method references.
   </Card>
   <Card title="Fail-Fast Validation" icon="open-book">
     Constructors and runtime transition methods validate all invariants up-front using localized messages from `AutomataMessages`.
